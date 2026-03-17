@@ -1,61 +1,160 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🏥 CORS
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## **Centro Oncológico de la Región Sureste**
 
-## About Laravel
+![Laravel](https://img.shields.io/badge/Laravel-11-red)
+![PHP](https://img.shields.io/badge/PHP-8.2-blue)
+![MySQL](https://img.shields.io/badge/Database-MySQL-orange)
+![Status](https://img.shields.io/badge/Status-En%20Desarrollo-green)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 📋 Descripción
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**CORS (Centro Oncológico de la Región Sureste)** es un sistema desarrollado en **Laravel** diseñado para la gestión clínica y administrativa de pacientes atendidos en el centro oncológico.
 
-## Learning Laravel
+El sistema permite administrar:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+* Agenda de citas médicas
+* Histórico de consultas de pacientes
+* Control de inventario de farmacia
+* Programación de sesiones de radioterapia
+* Registro de instrucciones de medicación por sesión
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+El objetivo del sistema es **centralizar la información clínica y mejorar la gestión de los tratamientos oncológicos**.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+# ⚙️ Funcionalidades del Sistema
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 👤 Gestión de Pacientes
 
-### Premium Partners
+* Registro de pacientes
+* Edición y actualización de datos
+* Consulta de historial clínico
+* Seguimiento médico
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📅 Agenda de Citas
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Programación de citas médicas
+* Agenda diaria de atención
+* Control de citas realizadas
+* Seguimiento de pacientes atendidos
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 📑 Histórico de Consultas
 
-## Security Vulnerabilities
+* Registro de consultas médicas
+* Seguimiento del historial clínico
+* Consulta de atenciones anteriores
+* Control de evolución del paciente
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## ☢️ Radioterapia
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+El sistema permite gestionar el tratamiento de radioterapia de los pacientes.
+
+Funciones principales:
+
+* Programación de sesiones de radioterapia
+* Registro de sesiones realizadas
+* Seguimiento del tratamiento
+* Registro de **instrucciones de medicación para cada sesión**
+
+---
+
+## 💊 Farmacia
+
+Módulo para el control del inventario de medicamentos e insumos médicos.
+
+Funciones:
+
+* Registro de medicamentos
+* Control de inventario
+* Entradas y salidas de insumos
+* Control de disponibilidad para tratamientos
+* Administración de caducidades
+
+---
+
+# 🧰 Tecnologías Utilizadas
+
+| Tecnología      | Descripción                       |
+| --------------- | --------------------------------- |
+| Laravel         | Framework PHP para desarrollo web |
+| PHP             | Lenguaje de programación          |
+| MySQL / MariaDB | Motor de base de datos            |
+| Blade           | Motor de plantillas de Laravel    |
+| AdminLTE        | Plantilla administrativa          |
+| Bootstrap       | Framework de diseño               |
+| JavaScript      | Interactividad del sistema        |
+
+---
+
+# 💻 Requisitos del Sistema
+
+| Requisito       | Versión        |
+| --------------- | -------------- |
+| PHP             | >= 8.2         |
+| Composer        | Última versión |
+| MySQL / MariaDB | >= 10          |
+| Node.js         | Opcional       |
+| Servidor Web    | Apache / Nginx |
+
+---
+
+# 📂 Estructura del Sistema
+
+El sistema se encuentra dividido en los siguientes módulos:
+
+* Pacientes
+* Agenda de Citas
+* Consultas Médicas
+* Radioterapia
+* Farmacia
+* Administración de Usuarios
+
+---
+
+# 🔐 Seguridad
+
+El sistema utiliza los mecanismos de seguridad de **Laravel**:
+
+* Autenticación de usuarios
+* Control de acceso por roles
+* Protección CSRF
+* Validación de formularios
+* Manejo seguro de sesiones
+
+---
+
+# 👨‍💻 Desarrollo
+
+Sistema desarrollado utilizando el framework **Laravel** siguiendo buenas prácticas de desarrollo MVC.
+
+---
+
+# 📌 Uso del Sistema
+
+Este sistema es utilizado para la gestión interna del:
+
+## **Centro Oncológico de la Región Sureste**
+
+Permitiendo mejorar el control de pacientes, tratamientos y recursos médicos.
+
+---
+
+# 📄 Licencia
+
+Sistema de **uso institucional** desarrollado para la administración del Centro Oncológico.
+
+---
+
+# ✨ Autor
+
+Desarrollado por el equipo de sistemas del
+**Centro Oncológico de la Región Sureste**
