@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\FarmaciaController;
+use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TipoDeCancerController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,6 +52,38 @@ Route::middleware(['auth'])->group(function ()
     Route::put('admin/farmacia/medicamentos/codigoDeBarras/updateCodigoDeBarras/{id}', [FarmaciaController::class,'updateCodigoDeBarras'])->name('updateCodigoDeBarras');
 
     Route::delete('admin/farmacia/medicamentos/codigoDeBarras/destroyCodigoDeBarras/{id}', [FarmaciaController::class, 'destroyCodigoDeBarras'])->name('destroyCodigoDeBarras');
+
+    /******************************************************
+     * 
+     * 
+     * MODULO DE SETTINGS
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/settings/index', [SettingsController::class,'index'])->name('index');
+
+    /******************************************************
+     * 
+     * 
+     * TIPO DE CANCER
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/settings/tipos-de-cancer/index', [TipoDeCancerController::class,'tiposDeCancerIndex'])->name('tiposDeCancerIndex');
+
+    Route::get('admin/settings/tipos-de-cancer/create', [TipoDeCancerController::class,'tiposDeCancerCreate'])->name('tiposDeCancerCreate');
+
+    Route::post('admin/settings/tipos-de-cancer/store', [TipoDeCancerController::class,'tiposDeCancerStore'])->name('tiposDeCancerStore');
+
+    Route::get('admin/settings/tipos-de-cancer/edit/{id}', [TipoDeCancerController::class,'tiposDeCancerEdit'])->name('tiposDeCancerEdit');
+
+    Route::put('admin/settings/tipos-de-cancer/update/{id}', [TipoDeCancerController::class,'tiposDeCancerUpdate'])->name('tiposDeCancerUpdate');
+
+    Route::delete('admin/settings/tipos-de-cancer/destroy/{id}', [TipoDeCancerController::class, 'tiposDeCancerDestroy'])->name('tiposDeCancerDestroy');
+
+
 
 
 });

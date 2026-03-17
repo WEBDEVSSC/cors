@@ -369,6 +369,20 @@ return [
             ],
         ],
 
+        /*
+        |
+        |
+        | SETTINGS DEL SISTEMA
+        |
+        |
+        |*/
+        [
+            'text' => 'Settings',
+            'url' => 'admin/settings/index',
+            'icon' => 'fa-solid fa-cogs',
+            'can' => 'admin',
+        ],
+
     ],
 
     /*
