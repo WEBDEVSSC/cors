@@ -22,7 +22,9 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    This is some text within a card body.
+                    <a href="{{ route('especialidadesMedicasIndex') }}">
+                        <center><strong>Especialidades Médicas</strong></center>
+                    </a>
                 </div>
             </div>
         </div>
@@ -30,7 +32,9 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    This is some text within a card body.
+                    <a href="{{ route('medicosIndex') }}">
+                        <center><strong>Médicos</strong></center>
+                    </a>
                 </div>
             </div>
         </div>
