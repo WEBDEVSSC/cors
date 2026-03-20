@@ -114,33 +114,93 @@
                                 <th>Día</th>
                                 <th>Entrada</th>
                                 <th>Salida</th>
+                                <th>Consulta</th>
                             </tr>
                         </thead>
                         <tbody>
 
-                            @php
-                                $dias = ['lunes','martes','miercoles','jueves','viernes'];
-                            @endphp
-
-                            @foreach($dias as $dia)
                             <tr>
-                                <td><strong>{{ ucfirst($dia) }}</strong></td>
+                                <td><strong>Lunes</strong></td>
+                                <td><input type="time" class="form-control" name="lunes_entrada" id="lunes_entrada" value="{{ old('lunes_entrada') }}"></td>
+                                <td><input type="time" class="form-control" name="lunes_salida" id="lunes_salida" value="{{ old('lunes_salida') }}"></td>
                                 <td>
-                                    <input type="time"
-                                        class="form-control @error('entrada_'.$dia) is-invalid @enderror"
-                                        name="entrada_{{ $dia }}"
-                                        value="{{ old('entrada_'.$dia) }}">
+                                    <select name="lunes_consulta" id="lunes_consulta" class="form-control">
+                                        <option value="0" {{ old('lunes_consulta') == 0 ? 'selected' : '' }}>
+                                            NO
+                                        </option>
+                                        <option value="1" {{ old('lunes_consulta') == 1 ? 'selected' : '' }}>
+                                            SI
+                                        </option>
+                                    </select>
                                 </td>
+                            </tr>   
+                            
+                            <tr>
+                                <td><strong>Martes</strong></td>
+                                <td><input type="time" class="form-control" name="martes_entrada" id="martes_entrada" value="{{ old('martes_entrada') }}"></td>
+                                <td><input type="time" class="form-control" name="martes_salida" id="martes_salida" value="{{ old('martes_salida') }}"></td>
                                 <td>
-                                    <input type="time"
-                                        class="form-control @error('salida_'.$dia) is-invalid @enderror"
-                                        name="salida_{{ $dia }}"
-                                        value="{{ old('salida_'.$dia) }}">
+                                    <select name="martes_consulta" id="martes_consulta" class="form-control">
+                                        <option value="0" {{ old('martes_consulta') == 0 ? 'selected' : '' }}>
+                                            NO
+                                        </option>
+                                        <option value="1" {{ old('martes_consulta') == 1 ? 'selected' : '' }}>
+                                            SI
+                                        </option>
+                                    </select>
                                 </td>
-                            </tr>
-                            @endforeach
+                            </tr>   
+
+                            <tr>
+                                <td><strong>Miercoles</strong></td>
+                                <td><input type="time" class="form-control" name="miercoles_entrada" id="miercoles_entrada" value="{{ old('miercoles_entrada') }}"></td>
+                                <td><input type="time" class="form-control" name="miercoles_salida" id="miercoles_salida" value="{{ old('miercoles_salida') }}"></td>
+                                <td>
+                                    <select name="miercoles_consulta" id="miercoles_consulta" class="form-control">
+                                        <option value="0" {{ old('miercoles_consulta') == 0 ? 'selected' : '' }}>
+                                            NO
+                                        </option>
+                                        <option value="1" {{ old('miercoles_consulta') == 1 ? 'selected' : '' }}>
+                                            SI
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>   
+
+                            <tr>
+                                <td><strong>Jueves</strong></td>
+                                <td><input type="time" class="form-control" name="jueves_entrada" id="jueves_entrada" value="{{ old('jueves_entrada') }}"></td>
+                                <td><input type="time" class="form-control" name="jueves_salida" id="jueves_salida" value="{{ old('jueves_salida') }}"></td>
+                                <td>
+                                    <select name="jueves_consulta" id="jueves_consulta" class="form-control">
+                                        <option value="0" {{ old('jueves_consulta') == 0 ? 'selected' : '' }}>
+                                            NO
+                                        </option>
+                                        <option value="1" {{ old('jueves_consulta') == 1 ? 'selected' : '' }}>
+                                            SI
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>   
+
+                            <tr>
+                                <td><strong>Viernes</strong></td>
+                                <td><input type="time" class="form-control" name="viernes_entrada" id="viernes_entrada" value="{{ old('viernes_entrada') }}"></td>
+                                <td><input type="time" class="form-control" name="viernes_salida" id="viernes_salida" value="{{ old('viernes_salida') }}"></td>
+                                <td>
+                                    <select name="viernes_consulta" id="viernes_consulta" class="form-control">
+                                        <option value="0" {{ old('viernes_consulta') == 0 ? 'selected' : '' }}>
+                                            NO
+                                        </option>
+                                        <option value="1" {{ old('viernes_consulta') == 1 ? 'selected' : '' }}>
+                                            SI
+                                        </option>
+                                    </select>
+                                </td>
+                            </tr>   
 
                         </tbody>
+
                     </table>
                 </div>
             </div>

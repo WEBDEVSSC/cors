@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CatEspecialidadMedica;
 use App\Models\Medico;
+use App\Models\MedicoVacacion;
 use Illuminate\Http\Request;
 
 class MedicoController extends Controller
@@ -18,7 +19,7 @@ class MedicoController extends Controller
 
     public function medicosIndex()
     {
-        $medicos = Medico::all();
+        $medicos = Medico::with('especialidad')->get();
     
         return view('settings.medicos.index', compact('medicos'));
     }
@@ -44,6 +45,7 @@ class MedicoController extends Controller
             
             'entrada_lunes' => 'nullable|date_format:H:i',
             'salida_lunes' => 'nullable|date_format:H:i',
+
 
             'entrada_martes' => 'nullable|date_format:H:i',
             'salida_martes' => 'nullable|date_format:H:i',
@@ -109,7 +111,9 @@ class MedicoController extends Controller
     {
         $medico = Medico::findOrFail($id);
 
-        return view('settings.medicos.edit', compact('medico'));
+        $especialidadesMedicas = CatEspecialidadMedica::all();
+
+        return view('settings.medicos.edit', compact('medico','especialidadesMedicas'));
     }
 
     public function medicosUpdate(Request $request, $id)
@@ -122,22 +126,27 @@ class MedicoController extends Controller
             'cedula' => 'required|string|unique:medicos,cedula,'.$id,
             'correo' => 'required|email|unique:medicos,correo,'.$id,
             'celular' => 'required|string|max:20',
-            'especialidad' => 'required|string|max:255',
+            'especialidad_id' => 'required|string|max:255',
 
             'lunes_entrada' => 'nullable|date_format:H:i',
             'lunes_salida' => 'nullable|date_format:H:i',
+            'lunes_consulta' => 'nullable',
 
             'martes_entrada' => 'nullable|date_format:H:i',
             'martes_salida' => 'nullable|date_format:H:i',
+            'martes_consulta' => 'nullable',
 
             'miercoles_entrada' => 'nullable|date_format:H:i',
             'miercoles_salida' => 'nullable|date_format:H:i',
+            'miercoles_consulta' => 'nullable',
 
             'jueves_entrada' => 'nullable|date_format:H:i',
             'jueves_salida' => 'nullable|date_format:H:i',
+            'jueves_consulta' => 'nullable',
 
             'viernes_entrada' => 'nullable|date_format:H:i',
             'viernes_salida' => 'nullable|date_format:H:i',
+            'viernes_consulta' => 'nullable',
         ],[
             'nombre.required' => 'El campo nombre es obligatorio.',
             'apellido_paterno.required' => 'El campo apellido paterno es obligatorio.',
@@ -169,18 +178,27 @@ class MedicoController extends Controller
         $medico->cedula = $request->cedula;
         $medico->correo = $request->correo;
         $medico->celular = $request->celular;
-        $medico->especialidad = $request->especialidad;
+        $medico->especialidad_id = $request->especialidad_id;
 
         $medico->lunes_entrada = $request->lunes_entrada;
         $medico->lunes_salida = $request->lunes_salida;
+        $medico->lunes_consulta = $request->lunes_consulta;
+
         $medico->martes_entrada = $request->martes_entrada;
         $medico->martes_salida = $request->martes_salida;
+        $medico->martes_consulta = $request->martes_consulta;
+
         $medico->miercoles_entrada = $request->miercoles_entrada;
         $medico->miercoles_salida = $request->miercoles_salida;
+        $medico->miercoles_consulta = $request->miercoles_consulta;
+
         $medico->jueves_entrada = $request->jueves_entrada;
         $medico->jueves_salida = $request->jueves_salida;
+        $medico->jueves_consulta = $request->jueves_consulta;
+
         $medico->viernes_entrada = $request->viernes_entrada;
         $medico->viernes_salida = $request->viernes_salida;
+        $medico->viernes_consulta = $request->viernes_consulta;
 
         $medico->save();
 
@@ -201,5 +219,39 @@ class MedicoController extends Controller
         $medico->save();
 
         return redirect()->route('medicosIndex')->with('success', 'Médico status actualizado exitosamente.');
+    }
+
+    public function medicosVacacionesCreate($id)
+    {
+         $medico = Medico::with('vacaciones')->findOrFail($id);
+
+         return view('settings.medicos.vacaciones', compact('medico'));
+    }
+
+    public function medicosVacacionesStore(Request $request,$id)
+    {
+        $request->validate([
+            'fecha' => 'required|date|after_or_equal:today',
+            'concepto' => 'required|string|max:255|min:5'
+        ], [
+            'fecha.required' => 'La fecha es obligatoria.',
+            'fecha.date' => 'Debe ser una fecha válida.',
+            'fecha.after' => 'La fecha debe ser posterior al día de hoy.',
+            
+            'concepto.required' => 'El concepto es obligatorio.',
+            'concepto.string' => 'El concepto debe ser texto.',
+            'concepto.min' => 'El concepto debe tener al menos 5 caracteres.',
+            'concepto.max' => 'El concepto no debe exceder 255 caracteres.'
+        ]);
+
+        $medicoVacacion = new MedicoVacacion();
+
+        $medicoVacacion->medico_id = $id;
+        $medicoVacacion->fecha = $request->fecha;
+        $medicoVacacion->concepto = $request->concepto;
+
+        $medicoVacacion->save();
+
+        return redirect()->route('medicosVacacionesCreate',$id)->with('success', 'Día de Vacaciones registrado exitosamente.');
     }
 }

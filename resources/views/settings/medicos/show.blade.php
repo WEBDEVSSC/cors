@@ -28,7 +28,7 @@
             </div>
             <div class="col-md-3">
                 <p><strong>Especialidad:</strong></p>
-                <p>{{ $medico->especialidad }}</p>
+                <p>{{ $medico->especialidad->especialidad }}</p>
             </div>
             <div class="col-md-3">
                 <p><strong>Contacto:</strong></p>
@@ -36,35 +36,79 @@
             </div>
           </div>
 
-        
-
           <div class="row mt-3">
             <div class="col-md-12">
-                <table class="table table-striped">
+                <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Lunes</th>
-                            <th>Martes</th>
-                            <th>Miercoles</th>
-                            <th>Jueves</th>
-                            <th>Viernes</th>
+                            <th><strong>DIA</strong></th>
+                            <th><strong>HORARIO</strong></th>
+                            <th><strong>CONSULTA</strong></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
+                            <td>LUNES</td>
                             <td>{{ $medico->horario_lunes  }}</td>
+                            <td>
+                                @if($medico->lunes_consulta == 1)
+                                    <span class="float-center badge bg-success">SI</span>
+                                @else
+                                    <span class="float-center badge bg-danger">NO</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MARTES</td>
                             <td>{{ $medico->horario_martes  }}</td>
+                            <td>
+                                @if($medico->martes_consulta == 1)
+                                    <span class="float-center badge bg-success">SI</span>
+                                @else
+                                    <span class="float-center badge bg-danger">NO</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>MIERCOLES</td>
                             <td>{{ $medico->horario_miercoles  }}</td>
+                            <td>
+                                @if($medico->miercoles_consulta == 1)
+                                    <span class="float-center badge bg-success">SI</span>
+                                @else
+                                    <span class="float-center badge bg-danger">NO</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>JUEVES</td>
                             <td>{{ $medico->horario_jueves  }}</td>
+                            <td>
+                                @if($medico->jueves_consulta == 1)
+                                    <span class="float-center badge bg-success">SI</span>
+                                @else
+                                    <span class="float-center badge bg-danger">NO</span>
+                                @endif
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>VIERNES</td>
                             <td>{{ $medico->horario_viernes  }}</td>
+                            <td>
+                                @if($medico->viernes_consulta == 1)
+                                    <span class="float-center badge bg-success">SI</span>
+                                @else
+                                    <span class="float-center badge bg-danger">NO</span>
+                                @endif
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
           </div>
+        
 
           
-
         </div>
         <div class="card-footer"></div>
     </div>

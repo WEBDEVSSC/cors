@@ -18,6 +18,6 @@ class CatEspecialidadMedica extends Model
      */
     public function medicos()
     {
-        return $this->hasMany(Medico::class, 'especialidad_id');
+        return $this->hasMany(Medico::class, 'especialidad');
     }
 }

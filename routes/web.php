@@ -107,7 +107,9 @@ Route::middleware(['auth'])->group(function ()
 
     Route::put('admin/settings/medicos/destroy/{id}', [MedicoController::class, 'medicosDestroy'])->name('medicosDestroy');
 
-    Route::get('admin/settings/medicos/vacaciones', [MedicoController::class,'medicosVacaciones'])->name('medicosVacaciones');
+    Route::get('admin/settings/medicos/vacacionesCreate/{id}', [MedicoController::class,'medicosVacacionesCreate'])->name('medicosVacacionesCreate');
+
+    Route::post('admin/settings/medicos/vacacionesStore/{id}', [MedicoController::class,'medicosVacacionesStore'])->name('medicosVacacionesStore');
 
      /******************************************************
      * 

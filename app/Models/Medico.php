@@ -18,7 +18,7 @@ class Medico extends Model
         'rubrica',
         'correo',
         'celular',
-        'especialidad',
+        'especialidad_id',
         'lunes_entrada',
         'lunes_salida',
         'martes_entrada',
@@ -49,6 +49,11 @@ class Medico extends Model
     public function especialidad()
     {
         return $this->belongsTo(CatEspecialidadMedica::class, 'especialidad_id');
+    }
+
+    public function vacaciones()
+    {
+        return $this->hasMany(MedicoVacacion::class);
     }
 
     /**

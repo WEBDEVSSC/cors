@@ -31,7 +31,7 @@
                     @foreach ($medicos as $medico)
                         <tr>
                             <td>{{ $medico->nombre_completo; }}</td>
-                            <td>{{ $medico->especialidad; }}</td>
+                            <td>{{ optional($medico->especialidad)->especialidad ?? 'Sin especialidad' }}</td>
                             <td>{{ $medico->cedula; }}</td>
                             <td>{{ $medico->correo; }} | {{ $medico->celular; }}</td>
 
@@ -41,7 +41,7 @@
                                         <i class="fa-solid fa-eye text-white"></i>
                                     </a>
 
-                                    <a href="{{ route('medicosVacaciones', $medico) }}" class="btn btn-sm btn-primary mr-1" data-toggle="tooltip" title="VACACIONES">
+                                    <a href="{{ route('medicosVacacionesCreate', $medico) }}" class="btn btn-sm btn-primary mr-1" data-toggle="tooltip" title="VACACIONES">
                                         <i class="fa-solid fa-calendar text-white"></i>
                                     </a>
 
