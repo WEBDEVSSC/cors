@@ -383,6 +383,29 @@ return [
             'can' => 'admin',
         ],
 
+        /*
+        |
+        |
+        |
+        | MENU PARA RECEPCION DE PACIENTES
+        |
+        |
+        |
+         */
+
+        [
+            'text' => 'Recepción',
+            'icon' => 'fa-solid fa-hospital-user',
+            'submenu' => [
+                [
+                    'text' => 'Nuevo Paciente',
+                    'url' => 'admin/pacientes/buscador-paciente',
+                    'can' => 'recepcion',
+                    'icon' => 'fa-solid fa-user-plus',
+                ],
+            ],
+        ],
+
     ],
 
     /*

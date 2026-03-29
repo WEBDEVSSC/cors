@@ -42,7 +42,9 @@
         <div class="col-md-3">
             <div class="card">
                 <div class="card-body">
-                    This is some text within a card body.
+                    <a href="{{ route('afiliacionesIndex') }}">
+                        <center><strong>Afiliaciones</strong></center>
+                    </a>
                 </div>
             </div>
         </div>

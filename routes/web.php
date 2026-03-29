@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\CatAfiliacionesController;
 use App\Http\Controllers\CatEspecialidadMedicaController;
 use App\Http\Controllers\FarmaciaController;
 use App\Http\Controllers\MedicoController;
+use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TipoDeCancerController;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +57,24 @@ Route::middleware(['auth'])->group(function ()
 
     Route::delete('admin/farmacia/medicamentos/codigoDeBarras/destroyCodigoDeBarras/{id}', [FarmaciaController::class, 'destroyCodigoDeBarras'])->name('destroyCodigoDeBarras');
 
+    /******************************************************
+     * 
+     * 
+     * MODULO DE PACIENTES
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/pacientes/buscador-paciente', [PacienteController::class,'buscadorPaciente'])->name('buscadorPaciente');
+
+    Route::post('admin/pacientes/buscar-paciente', [PacienteController::class,'buscarPaciente'])->name('buscarPaciente');
+
+    Route::get('admin/pacientes/create-paciente', [PacienteController::class,'createPaciente'])->name('createPaciente');
+
+    Route::post('admin/pacientes/store-paciente', [PacienteController::class,'pacienteStore'])->name('pacienteStore');
+
+    Route::get('admin/pacientes/index-paciente', [PacienteController::class,'pacientesIndex'])->name('pacientesIndex');
+    
     /******************************************************
      * 
      * 
@@ -130,6 +150,26 @@ Route::middleware(['auth'])->group(function ()
     Route::put('admin/settings/especialidades-medicas/update/{id}', [CatEspecialidadMedicaController::class,'especialidadesMedicasUpdate'])->name('especialidadesMedicasUpdate');
 
     Route::delete('admin/settings/especialidades-medicas/destroy/{id}', [CatEspecialidadMedicaController::class, 'especialidadesMedicasDestroy'])->name('especialidadesMedicasDestroy');
+
+    /******************************************************
+     * 
+     * 
+     * AFILIACIONES
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/settings/afiliaciones/index', [CatAfiliacionesController::class,'afiliacionesIndex'])->name('afiliacionesIndex');
+
+    Route::get('admin/settings/afiliaciones/create', [CatAfiliacionesController::class,'afiliacionesCreate'])->name('afiliacionesCreate');
+
+    Route::post('admin/settings/afiliaciones/store', [CatAfiliacionesController::class,'afiliacionesStore'])->name('afiliacionesStore');
+
+    Route::get('admin/settings/afiliaciones/edit/{id}', [CatAfiliacionesController::class,'afiliacionesEdit'])->name('afiliacionesEdit');
+
+    Route::put('admin/settings/afiliaciones/update/{id}', [CatAfiliacionesController::class,'afiliacionesUpdate'])->name('afiliacionesUpdate');
+
+    Route::delete('admin/settings/afiliaciones/destroy/{id}', [CatAfiliacionesController::class, 'afiliacionesDestroy'])->name('afiliacionesDestroy');
 
 
 

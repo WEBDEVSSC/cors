@@ -1,0 +1,334 @@
+@extends('adminlte::page')
+
+@section('title', 'Dashboard')
+
+@section('plugins.Sweetalert2', true)
+
+@section('content_header')
+    <h1><strong>Pacientes</strong> <small class="text-muted">Nuevo Registro</small></h1>
+@stop
+
+@section('content')
+<div class="card">
+    <div class="card-header">
+        <a href="{{ route('medicosIndex') }}" class="btn btn-info btn-sm float-right">
+            <i class="fa-solid fa-sliders"></i> PANEL DE CONTROL
+        </a>
+    </div>
+
+    <form action="{{ route('pacienteStore') }}" method="POST">
+        @csrf
+
+        <div class="card-body">
+
+            {{-- DATOS GENERALES --}}
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label for="curp">CURP</label>
+                    <input type="text" id="curp" name="curp" class="form-control @error('curp') is-invalid @enderror" value="{{ old('curp', $curp) }}" readonly>
+                    @error('curp')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}">
+                    @error('nombre')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Apellido Paterno</label>
+                    <input type="text" class="form-control @error('apellido_paterno') is-invalid @enderror"
+                        name="apellido_paterno" value="{{ old('apellido_paterno') }}">
+                    @error('apellido_paterno')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Apellido Materno</label>
+                    <input type="text"id="apellido_materno" class="form-control @error('apellido_materno') is-invalid @enderror" name="apellido_materno" value="{{ old('apellido_materno') }}">
+                    @error('apellido_materno')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+            </div>
+
+            {{-- CONTACTO --}}
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label>Fecha de Nacimiento</label>
+                    <input type="text" name="fecha_nacimiento" class="form-control @error('fecha_nacimiento') is-invalid @enderror" value="{{ old('fecha_nacimiento', $fechaNacimiento) }}" readonly>
+                    @error('fecha_nacimiento')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Sexo</label>
+                    <input type="text" name="sexo" class="form-control @error('sexo') is-invalid @enderror" value="{{ old('sexo', $sexo) }}" readonly>
+                    @error('sexo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Correo</label>
+                    <input type="email" class="form-control @error('correo') is-invalid @enderror"
+                        name="correo" value="{{ old('correo') }}">
+                    @error('correo')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Teléfono</label>
+                    <input type="text" class="form-control @error('telefono') is-invalid @enderror"
+                        name="telefono" value="{{ old('telefono') }}">
+                    @error('telefono')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-3">
+                    <label for="nombre">Residencia</label>
+                    <input type="text" id="residencia" class="form-control @error('residencia') is-invalid @enderror" name="residencia" value="{{ old('residencia') }}">
+                    @error('residencia')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Estado Civil</label>
+
+                    <select name="estado_civil" class="form-control @error('estado_civil') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        <option value="SOLTERO" {{ old('estado_civil') == 'SOLTERO' ? 'selected' : '' }}>SOLTERO</option>
+                        <option value="CASADO" {{ old('estado_civil') == 'CASADO' ? 'selected' : '' }}>CASADO</option>
+                        <option value="DIVORCIADO" {{ old('estado_civil') == 'DIVORCIADO' ? 'selected' : '' }}>DIVORCIADO</option>
+                        <option value="VIUDO" {{ old('estado_civil') == 'VIUDO' ? 'selected' : '' }}>VIUDO</option>
+                        <option value="CONCUBINATO" {{ old('estado_civil') == 'CONCUBINATO' ? 'selected' : '' }}>CONCUBINATO</option>
+                        <option value="UNION LIBRE" {{ old('estado_civil') == 'UNION LIBRE' ? 'selected' : '' }}>UNIÓN LIBRE</option>
+                        <option value="SEPARADO" {{ old('estado_civil') == 'SEPARADO' ? 'selected' : '' }}>SEPARADO</option>
+                    </select>
+
+                    @error('estado_civil')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Afiliación</label>
+
+                    <select name="afiliacion_id" class="form-control @error('afiliacion_id') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($afiliaciones as $afiliacion)
+                            <option value="{{ $afiliacion->id }}"
+                                {{ old('afiliacion_id') == $afiliacion->id ? 'selected' : '' }}>
+                                
+                                {{ $afiliacion->afiliacion }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('afiliacion_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>¿Primera vez?</label>
+
+                    <select name="primera_vez" class="form-control @error('primera_vez') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        <option value="SI" {{ old('primera_vez') == 'SI' ? 'selected' : '' }}>SI</option>
+                        <option value="NO" {{ old('primera_vez') == 'NO' ? 'selected' : '' }}>NO</option>
+                    </select>
+
+                    @error('primera_vez')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-md-3">
+                    <label>Diagnóstico</label>
+
+                    <select name="diagnostico_id" id="diagnostico_id" class="form-control @error('diagnostico_id') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($tiposDeCancer as $tipo)
+                            <option value="{{ $tipo->id }}"
+                                {{ old('diagnostico_id') == $tipo->id ? 'selected' : '' }}>
+                                
+                                {{ $tipo->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('diagnostico_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Cirujano Oncólogo</label>
+
+                    <select name="cirujano_oncologo_id" id="cirujano_oncologo_id" class="form-control @error('cirujano_oncologo_id') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($medicos as $medico)
+                            <option value="{{ $medico->id }}"
+                                {{ old('cirujano_oncologo_id') == $medico->id ? 'selected' : '' }}>
+                                
+                                {{ $medico->nombre_completo }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('cirujano_oncologo_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
+                    <label>Oncólogo Médico</label>
+
+                    <select name="oncologo_medico_id" id="oncologo_medico_id" class="form-control @error('oncologo_medico_id') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($medicos as $medico)
+                            <option value="{{ $medico->id }}"
+                                {{ old('oncologo_medico_id') == $medico->id ? 'selected' : '' }}>
+                                
+                                {{ $medico->nombre_completo }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('oncologo_medico_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label for="alergias">Alergias</label>
+
+                    <textarea name="alergias" id="alergias" rows="4" class="form-control @error('alergias') is-invalid @enderror" >{{ old('alergias') }}</textarea>
+
+                    @error('alergias')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>         
+
+        </div>
+
+        <div class="card-footer">
+
+            <div class="text-right mt-3">
+                
+                <button type="submit" 
+                    class="btn btn-success btn-sm d-inline-flex align-items-center" 
+                    style="gap:6px; border-radius:6px;">
+
+                    <x-lucide-save style="width:16px; height:16px;"/>
+                    REGISTRAR DATOS
+                </button>
+                
+            </div>
+        </div>
+    </form>
+</div>
+@stop
+
+@section('css')
+    {{-- Add here extra stylesheets --}}
+    {{-- <link rel="stylesheet" href="/css/admin_custom.css"> --}}
+@stop
+
+@section('js')
+    <script> console.log("Hi, I'm using the Laravel-AdminLTE package!"); </script>
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <script>
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '{{ session('success') }}',
+                timer: 3000,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if(session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}'
+            });
+        @endif
+
+        @if(session('warning'))
+            Swal.fire({
+                icon: 'warning',
+                title: 'Advertencia',
+                text: '{{ session('warning') }}'
+            });
+        @endif
+
+        @if(session('info'))
+            Swal.fire({
+                icon: 'info',
+                title: 'Información',
+                text: '{{ session('info') }}'
+            });
+        @endif
+    </script>
+
+    <script>
+        document.querySelectorAll('.form-delete').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "Este registro se eliminará",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
+@stop
