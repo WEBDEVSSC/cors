@@ -24,6 +24,13 @@ class PacienteController extends Controller
         return view('pacientes.buscardor-paciente');
     }
 
+    public function pacientesShow($id)
+    {
+        $paciente = Paciente::findOrFail($id);
+
+        return view('pacientes.show', compact('paciente'));
+    }
+
     public function buscarPaciente(Request $request)
     {
         $request->merge([
@@ -42,7 +49,7 @@ class PacienteController extends Controller
         if ($paciente) 
         {
             return redirect()
-            ->route('pacientes.show', $paciente->id)
+            ->route('pacientesShow', $paciente->id)
             ->with('info', 'El paciente ya se encuentra registrado.');
         } 
         
@@ -178,10 +185,128 @@ class PacienteController extends Controller
         $paciente->afiliacion_id = $request->afiliacion_id;
         $paciente->primera_vez = $request->primera_vez;
         $paciente->alergias = $request->alergias;
+        $paciente->email = $request->email; 
 
         $paciente->save();
 
         return redirect()->route('pacientesIndex')->with('success', 'Paciente registrado exitosamente.');
+    }
+
+    public function pacientesEdit($id)
+    {
+        $paciente = Paciente::findOrFail($id);
+
+        $medicos = Medico::where('status',1)
+            ->orderBy('apellido_paterno','ASC')
+            ->get();
+
+        $tiposDeCancer = CatTipoDeCancer::all();
+
+        $afiliaciones = CatAfiliacion::all();
+
+        return view('pacientes.edit', compact('paciente','medicos','tiposDeCancer','afiliaciones'));
+    }
+
+    public function pacientesUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'nombre' => 'required|string|max:100',
+            'apellido_paterno' => 'required|string|max:100',
+            'apellido_materno' => 'nullable|string|max:100',
+
+            'email' => 'nullable|email|max:150',
+            'celular' => 'nullable|digits:10',
+
+            'estado_civil' => 'required|in:SOLTERO,CASADO,DIVORCIADO,VIUDO,CONCUBINATO,UNION LIBRE,SEPARADO',
+
+            'afiliacion_id' => 'required|exists:cat_afiliaciones,id',
+
+            'primera_vez' => 'required|in:SI,NO',
+
+            'diagnostico_id' => 'required|exists:cat_tipos_de_cancer,id',
+
+            'cirujano_oncologo_id' => 'required|exists:medicos,id|different:oncologo_medico_id',
+
+            'oncologo_medico_id' => 'required|exists:medicos,id|different:cirujano_oncologo_id',
+        ],[
+            // Nombre
+            'nombre.required' => 'El nombre es obligatorio',
+
+            // Apellidos
+            'apellido_paterno.required' => 'El apellido paterno es obligatorio',
+
+            // Correo
+            'email.email' => 'El correo no es válido',
+
+            // Celular
+            'celular.digits' => 'El celular debe tener 10 dígitos',
+
+            // Estado civil
+            'estado_civil.required' => 'Selecciona un estado civil',
+
+            // Afiliación
+            'afiliacion_id.required' => 'Selecciona una afiliación',
+            'afiliacion_id.exists' => 'La afiliación no es válida',
+
+            // Primera vez
+            'primera_vez.required' => 'Indica si es primera vez',
+
+            // Diagnóstico
+            'diagnostico_id.required' => 'Selecciona un diagnóstico',
+            'diagnostico_id.exists' => 'El diagnóstico no es válido',
+
+            // Médicos
+            'cirujano_oncologo_id.required' => 'Selecciona el cirujano oncólogo',
+            'cirujano_oncologo_id.exists' => 'El cirujano no es válido',
+            'cirujano_oncologo_id.different' => 'El cirujano y el oncólogo deben ser diferentes',
+        ]);
+
+        $paciente = Paciente::findOrFail($id);  
+
+        $paciente->nombre = $request->nombre;
+        $paciente->apellido_paterno = $request->apellido_paterno;
+        $paciente->apellido_materno = $request->apellido_materno;
+        $paciente->estado_civil = $request->estado_civil;
+        $paciente->telefono = $request->telefono;
+        $paciente->residencia = $request->residencia;
+        $paciente->diagnostico_id = $request->diagnostico_id;
+        $paciente->cirujano_oncologo = $request->cirujano_oncologo_id;
+        $paciente->oncologo_medico = $request->oncologo_medico_id;
+        $paciente->afiliacion_id = $request->afiliacion_id;
+        $paciente->primera_vez = $request->primera_vez;
+        $paciente->alergias = $request->alergias;
+        $paciente->email = $request->email; 
+
+        $paciente->save();
+
+        return redirect()->route('pacientesShow', $paciente->id)->with('success', 'Paciente actualizado exitosamente.');
+
+    }
+
+    public function pacientesExpediente($id)
+    {
+        $paciente = Paciente::findOrFail($id);
+
+        return view('pacientes.expediente', compact('paciente'));
+    }
+
+    public function pacienteExpedienteUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'expediente' => 'required|string|max:255',
+        ], [
+            'expediente.required' => 'El campo expediente es obligatorio',
+            'expediente.string' => 'El expediente debe ser texto',
+            'expediente.max' => 'El expediente no debe exceder 255 caracteres',
+        ]);
+
+        $paciente = Paciente::findOrFail($id);
+
+        $paciente->expediente = $request->expediente;
+
+        $paciente->save();
+
+        return redirect()->route('pacientesShow', $paciente->id)->with('success', 'Expediente actualizado exitosamente.');
     }
 
     

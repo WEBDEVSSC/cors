@@ -29,7 +29,11 @@
 
             <div class="card-footer">
                 <div class="text-right mt-3">
-                    <button type="submit" class="btn btn-success btn-sm">
+                    <button type="submit" 
+                        class="btn btn-success btn-sm d-inline-flex align-items-center" 
+                        style="gap:6px; border-radius:6px;">
+
+                        <x-lucide-folder-search style="width:16px; height:16px;"/>
                         BUSCAR DATOS
                     </button>
                 </div>

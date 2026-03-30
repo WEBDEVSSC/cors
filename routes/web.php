@@ -74,6 +74,16 @@ Route::middleware(['auth'])->group(function ()
     Route::post('admin/pacientes/store-paciente', [PacienteController::class,'pacienteStore'])->name('pacienteStore');
 
     Route::get('admin/pacientes/index-paciente', [PacienteController::class,'pacientesIndex'])->name('pacientesIndex');
+
+    Route::get('admin/pacientes/show-paciente/{id}', [PacienteController::class,'pacientesShow'])->name('pacientesShow');
+
+    Route::get('admin/pacientes/edit-paciente/{id}', [PacienteController::class,'pacientesEdit'])->name('pacientesEdit');
+
+    Route::put('admin/pacientes/update-paciente/{id}', [PacienteController::class,'pacientesUpdate'])->name('pacientesUpdate');
+
+    Route::get('admin/pacientes/expediente-paciente/{id}', [PacienteController::class,'pacientesExpediente'])->name('pacientesExpediente');
+
+    Route::put('admin/pacientes/expediente-paciente-store/{id}', [PacienteController::class,'pacienteExpedienteUpdate'])->name('pacienteExpedienteUpdate');
     
     /******************************************************
      * 

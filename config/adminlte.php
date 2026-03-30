@@ -403,6 +403,12 @@ return [
                     'can' => 'recepcion',
                     'icon' => 'fa-solid fa-user-plus',
                 ],
+                [
+                    'text' => 'Panel de Control',
+                    'url' => 'admin/pacientes/index-paciente',
+                    'can' => 'recepcion',
+                    'icon' => 'fa-solid fa-sliders',
+                ],
             ],
         ],
 
