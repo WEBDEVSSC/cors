@@ -25,8 +25,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <label>Nombre</label>
-                    <input type="text" class="form-control @error('nombre') is-invalid @enderror"
-                        name="nombre" value="{{ old('nombre') }}">
+                    <input type="text" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre') }}">
                     @error('nombre')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -34,8 +33,7 @@
 
                 <div class="col-md-3">
                     <label>Apellido Paterno</label>
-                    <input type="text" class="form-control @error('apellido_paterno') is-invalid @enderror"
-                        name="apellido_paterno" value="{{ old('apellido_paterno') }}">
+                    <input type="text" class="form-control @error('apellido_paterno') is-invalid @enderror" name="apellido_paterno" value="{{ old('apellido_paterno') }}">
                     @error('apellido_paterno')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -43,8 +41,7 @@
 
                 <div class="col-md-3">
                     <label>Apellido Materno</label>
-                    <input type="text" class="form-control @error('apellido_materno') is-invalid @enderror"
-                        name="apellido_materno" value="{{ old('apellido_materno') }}">
+                    <input type="text" class="form-control @error('apellido_materno') is-invalid @enderror" name="apellido_materno" value="{{ old('apellido_materno') }}">
                     @error('apellido_materno')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -52,8 +49,7 @@
 
                 <div class="col-md-3">
                     <label>Cédula</label>
-                    <input type="text" class="form-control @error('cedula') is-invalid @enderror"
-                        name="cedula" value="{{ old('cedula') }}">
+                    <input type="text" class="form-control @error('cedula') is-invalid @enderror" name="cedula" value="{{ old('cedula') }}">
                     @error('cedula')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

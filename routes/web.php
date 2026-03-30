@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CatAfiliacionesController;
 use App\Http\Controllers\CatEspecialidadMedicaController;
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\FarmaciaController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
@@ -84,6 +85,22 @@ Route::middleware(['auth'])->group(function ()
     Route::get('admin/pacientes/expediente-paciente/{id}', [PacienteController::class,'pacientesExpediente'])->name('pacientesExpediente');
 
     Route::put('admin/pacientes/expediente-paciente-store/{id}', [PacienteController::class,'pacienteExpedienteUpdate'])->name('pacienteExpedienteUpdate');
+
+    /******************************************************
+     * 
+     * 
+     * MODULO DE CITAS
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/citas/buscador-cita', [CitaController::class,'buscadorCita'])->name('buscadorCita');
+
+    Route::post('admin/citas/mostrar-horarios-disponibles', [CitaController::class,'mostrarHorariosDisponibles'])->name('mostrarHorariosDisponibles');
+
+    Route::get('admin/citas/create-cita', [CitaController::class,'createCita'])->name('createCita');
+
+    Route::post('admin/citas/store-cita', [CitaController::class,'storeCita'])->name('storeCita');
     
     /******************************************************
      * 

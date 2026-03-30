@@ -409,6 +409,12 @@ return [
                     'can' => 'recepcion',
                     'icon' => 'fa-solid fa-sliders',
                 ],
+                [
+                    'text' => 'Citas',
+                    'url' => 'admin/citas/buscador-cita',
+                    'can' => 'recepcion',
+                    'icon' => 'fa-regular fa-calendar-days',
+                ],
             ],
         ],
 
