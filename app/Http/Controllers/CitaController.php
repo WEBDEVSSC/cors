@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cita;
 use App\Models\Medico;
+use App\Models\MedicoVacacion;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -85,7 +86,14 @@ class CitaController extends Controller
         // Día en texto
         $diaTexto = $fecha->translatedFormat('l');
 
-        // 🚀 Redirección correcta
+        // Consulta si el medico esta de vacaciones ese día
+        if($vacaciones = MedicoVacacion::where('medico_id', $request->medico_id)->where('fecha', $request->fecha)->first()) {
+            return back()
+                ->withInput()
+                ->with('error', "El médico está de vacaciones el {$diaTexto}");
+        }
+
+        // Redirección correcta
         return redirect()->route('createCita', [
             'paciente_id' => $request->paciente_id,
             'medico_id' => $request->medico_id,
