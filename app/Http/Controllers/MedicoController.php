@@ -33,7 +33,6 @@ class MedicoController extends Controller
 
     public function medicosStore(Request $request)
     {
-        // Logic for storing a new médico
         $request->validate([
             'nombre' => 'required|string|max:255',
             'apellido_paterno' => 'required|string|max:255',
@@ -43,21 +42,25 @@ class MedicoController extends Controller
             'celular' => 'required|string|max:20',
             'especialidad' => 'required|string|max:255',
             
-            'entrada_lunes' => 'nullable|date_format:H:i',
-            'salida_lunes' => 'nullable|date_format:H:i',
+            'lunes_entrada' => 'nullable|date_format:H:i',
+            'lunes_salida' => 'nullable|date_format:H:i',
+            'lunes_consulta' => 'required|in:0,1',
 
+            'martes_entrada' => 'nullable|date_format:H:i',
+            'martes_salida' => 'nullable|date_format:H:i',
+            'martes_consulta' => 'required|in:0,1',
 
-            'entrada_martes' => 'nullable|date_format:H:i',
-            'salida_martes' => 'nullable|date_format:H:i',
+            'miercoles_entrada' => 'nullable|date_format:H:i',
+            'miercoles_salida' => 'nullable|date_format:H:i',
+            'miercoles_consulta' => 'required|in:0,1',
 
-            'entrada_miercoles' => 'nullable|date_format:H:i',
-            'salida_miercoles' => 'nullable|date_format:H:i',
+            'jueves_entrada' => 'nullable|date_format:H:i',
+            'jueves_salida' => 'nullable|date_format:H:i',
+            'jueves_consulta' => 'required|in:0,1',
 
-            'entrada_jueves' => 'nullable|date_format:H:i',
-            'salida_jueves' => 'nullable|date_format:H:i',
-
-            'entrada_viernes' => 'nullable|date_format:H:i',
-            'salida_viernes' => 'nullable|date_format:H:i',
+            'viernes_entrada' => 'nullable|date_format:H:i',
+            'viernes_salida' => 'nullable|date_format:H:i',
+            'viernes_consulta' => 'required|in:0,1',
         ],[
             'nombre.required' => 'El campo nombre es obligatorio.',
             'apellido_paterno.required' => 'El campo apellido paterno es obligatorio.',
@@ -69,16 +72,17 @@ class MedicoController extends Controller
             'correo.unique' => 'El correo ya está en uso.',
             'celular.required' => 'El campo celular es obligatorio.',
             'especialidad.required' => 'El campo especialidad es obligatorio.',
-            'entrada_lunes.date_format' => 'El campo entrada lunes debe tener el formato HH:mm.',
-            'salida_lunes.date_format' => 'El campo salida lunes debe tener el formato HH:mm.',
-            'entrada_martes.date_format' => 'El campo entrada martes debe tener el formato HH:mm.',
-            'salida_martes.date_format' => 'El campo salida martes debe tener el formato HH:mm.',
-            'entrada_miercoles.date_format' => 'El campo entrada miércoles debe tener el formato HH:mm.',
-            'salida_miercoles.date_format' => 'El campo salida miércoles debe tener el formato HH:mm.',
-            'entrada_jueves.date_format' => 'El campo entrada jueves debe tener el formato HH:mm.',
-            'salida_jueves.date_format' => 'El campo salida jueves debe tener el formato HH:mm.',
-            'entrada_viernes.date_format' => 'El campo entrada viernes debe tener el formato HH:mm.',
-            'salida_viernes.date_format' => 'El campo salida viernes debe tener el formato HH:mm.',
+
+            'lunes_entrada.date_format' => 'El campo entrada lunes debe tener el formato HH:mm.',
+            'lunes_salida.date_format' => 'El campo salida lunes debe tener el formato HH:mm.',
+            'martes_entrada.date_format' => 'El campo entrada martes debe tener el formato HH:mm.',
+            'martes_salida.date_format' => 'El campo salida martes debe tener el formato HH:mm.',
+            'miercoles_entrada.date_format' => 'El campo entrada miércoles debe tener el formato HH:mm.',
+            'miercoles_salida.date_format' => 'El campo salida miércoles debe tener el formato HH:mm.',
+            'jueves_entrada.date_format' => 'El campo entrada jueves debe tener el formato HH:mm.',
+            'jueves_salida.date_format' => 'El campo salida jueves debe tener el formato HH:mm.',
+            'viernes_entrada.date_format' => 'El campo entrada viernes debe tener el formato HH:mm.',
+            'viernes_salida.date_format' => 'El campo salida viernes debe tener el formato HH:mm.',
         ]);
 
         $medico = new Medico();
@@ -89,18 +93,27 @@ class MedicoController extends Controller
         $medico->cedula = $request->cedula;
         $medico->correo = $request->correo;
         $medico->celular = $request->celular;
-        $medico->especialidad = $request->especialidad;
+        $medico->especialidad_id = $request->especialidad;
 
-        $medico->lunes_entrada = $request->entrada_lunes;
-        $medico->lunes_salida = $request->salida_lunes;
-        $medico->martes_entrada = $request->entrada_martes;
-        $medico->martes_salida = $request->salida_martes;
-        $medico->miercoles_entrada = $request->entrada_miercoles;
-        $medico->miercoles_salida = $request->salida_miercoles;
-        $medico->jueves_entrada = $request->entrada_jueves;
-        $medico->jueves_salida = $request->salida_jueves;
-        $medico->viernes_entrada = $request->entrada_viernes;
-        $medico->viernes_salida = $request->salida_viernes;
+        $medico->lunes_entrada = $request->lunes_entrada;
+        $medico->lunes_salida = $request->lunes_salida;
+        $medico->lunes_consulta = $request->lunes_consulta;
+
+        $medico->martes_entrada = $request->martes_entrada;
+        $medico->martes_salida = $request->martes_salida;
+        $medico->martes_consulta = $request->martes_consulta;
+
+        $medico->miercoles_entrada = $request->miercoles_entrada;
+        $medico->miercoles_salida = $request->miercoles_salida;
+        $medico->miercoles_consulta = $request->miercoles_consulta;
+
+        $medico->jueves_entrada = $request->jueves_entrada;
+        $medico->jueves_salida = $request->jueves_salida;
+        $medico->jueves_consulta = $request->jueves_consulta;
+
+        $medico->viernes_entrada = $request->viernes_entrada;
+        $medico->viernes_salida = $request->viernes_salida;
+        $medico->viernes_consulta = $request->viernes_consulta;
 
         $medico->save();
 
@@ -158,6 +171,7 @@ class MedicoController extends Controller
             'correo.unique' => 'El correo ya está en uso.',
             'celular.required' => 'El campo celular es obligatorio.',
             'especialidad.required' => 'El campo especialidad es obligatorio.',
+
             'entrada_lunes.date_format' => 'El campo entrada lunes debe tener el formato HH:mm.',
             'salida_lunes.date_format' => 'El campo salida lunes debe tener el formato HH:mm.',
             'entrada_martes.date_format' => 'El campo entrada martes debe tener el formato HH:mm.',
@@ -254,4 +268,6 @@ class MedicoController extends Controller
 
         return redirect()->route('medicosVacacionesCreate',$id)->with('success', 'Día de Vacaciones registrado exitosamente.');
     }
+
+    
 }

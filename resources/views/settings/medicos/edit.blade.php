@@ -129,7 +129,7 @@
                                         <option value="0" {{ old('lunes_consulta', $medico->lunes_consulta ?? 0) == 0 ? 'selected' : '' }}>
                                             NO
                                         </option>
-                                        <option value="1" {{ old('lunes_consulta', $medico->lunes_consulta ?? 0) == 1 ? 'selected' : '' }}>
+                                        <option value="1" {{ old('lunes_consulta', $medico->lunes_consulta ?? 1) == 1 ? 'selected' : '' }}>
                                             SI
                                         </option>
                                     </select>

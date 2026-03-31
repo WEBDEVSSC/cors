@@ -9,44 +9,70 @@
 @section('content')
     
     <div class="row">
-        <div class="col-md-3">
+        
+        <div class="col-md-2">
+            <a href="{{ route('tiposDeCancerIndex') }}">
             <div class="card">
-                <div class="card-body">
-                    <a href="{{ route('tiposDeCancerIndex') }}">
-                        <center><strong>Tipos de Cancer</strong></center>
-                    </a>
+                <div class="card-body text-center">
+                           
+                    <x-lucide-square-activity style="width:60px; height:60px;" />
+
                 </div>
+                <div class="card-footer"><center><strong>Tipos de Cancer</strong></center></div>
             </div>
+            </a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <a href="{{ route('especialidadesMedicasIndex') }}">
             <div class="card">
-                <div class="card-body">
-                    <a href="{{ route('especialidadesMedicasIndex') }}">
-                        <center><strong>Especialidades Médicas</strong></center>
-                    </a>
+                <div class="card-body text-center">
+                    
+                        <x-lucide-briefcase-medical style="width:60px; height:60px;" />
+                    
                 </div>
+                <div class="card-footer"><center><strong>Especialidades Médicas</strong></center></div>
             </div>
+            </a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <a href="{{ route('medicosIndex') }}">
             <div class="card">
-                <div class="card-body">
-                    <a href="{{ route('medicosIndex') }}">
-                        <center><strong>Médicos</strong></center>
-                    </a>
+                <div class="card-body text-center">
+                    
+                        <x-lucide-stethoscope style="width:60px; height:60px;" />
+                    
                 </div>
+                <div class="card-footer"><center><strong>Médicos</strong></center></div>
             </div>
+            </a>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
+            <a href="{{ route('afiliacionesIndex') }}">
             <div class="card">
-                <div class="card-body">
-                    <a href="{{ route('afiliacionesIndex') }}">
-                        <center><strong>Afiliaciones</strong></center>
-                    </a>
+                <div class="card-body text-center">
+                    
+                        <x-lucide-folder-archive style="width:60px; height:60px;" />
+                    
                 </div>
+                <div class="card-footer"><center><strong>Afiliaciones</strong></center></div>
             </div>
+            </a>
+        </div>
+
+        <div class="col-md-2">
+            <a href="{{ route('usuariosIndex') }}">
+            <div class="card">
+                <div class="card-body text-center">
+                    
+                        <x-lucide-shield-user style="width:60px; height:60px;" />
+                    
+                </div>
+                <div class="card-footer"><center><strong>Usuarios</strong></center></div>
+            </div>
+            </a>
         </div>
     </div>
 

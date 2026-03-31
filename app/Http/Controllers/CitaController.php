@@ -173,7 +173,11 @@ class CitaController extends Controller
             ->where('fecha', $request->fecha)
             ->get();
 
-        return view('citas.create', compact('medico_id', 'paciente_id', 'fecha', 'consultaHorarioUno', 'consultaHorarioDos', 'consultaHorarioTres', 'consultaHorarioCuatro', 'consultaHorarioCinco', 'consultaHorarioSeis', 'consultaHorarioSiete', 'consultaHorarioOcho', 'consultaHorarioNueve', 'consultaHorarioDiez', 'consultaHorarioOnce', 'consultaHorarioDoce', 'consultaHorarioTrece', 'consultaHorarioCatorce', 'consultaCitas'));
+        $medico = Medico::findOrFail($request->medico_id);
+        
+        $paciente = Paciente::findOrFail($request->paciente_id);
+
+        return view('citas.create', compact('medico', 'paciente', 'medico_id', 'paciente_id', 'fecha', 'consultaHorarioUno', 'consultaHorarioDos', 'consultaHorarioTres', 'consultaHorarioCuatro', 'consultaHorarioCinco', 'consultaHorarioSeis', 'consultaHorarioSiete', 'consultaHorarioOcho', 'consultaHorarioNueve', 'consultaHorarioDiez', 'consultaHorarioOnce', 'consultaHorarioDoce', 'consultaHorarioTrece', 'consultaHorarioCatorce', 'consultaCitas'));
     }
 
     public function storeCita(Request $request)
@@ -205,5 +209,27 @@ class CitaController extends Controller
         $cita->save();
 
         return redirect()->route('buscadorCita')->with('success', 'Cita agendada exitosamente');
+    }
+
+    public function medicoAgendaCita(Request $request)
+    {
+        dd($request->all());    
+    
+    $request->validate([
+            'medico_id' => 'required|exists:medicos,id',
+            'fecha' => 'required|date|after_or_equal:today',
+        ], [
+            'medico_id.required' => 'El médico es obligatorio.',
+            'medico_id.exists' => 'El médico seleccionado no existe.',
+            'fecha.required' => 'La fecha es obligatoria.',
+            'fecha.date' => 'Debe ser una fecha válida.',
+            'fecha.after_or_equal' => 'La fecha debe ser hoy o en el futuro.',
+        ]);
+
+        $medico = Medico::findOrFail($request->medico_id);
+
+        $agenda = $medico->agendaCitas($request->fecha);
+
+        return response()->json($agenda);
     }
 }

@@ -101,6 +101,70 @@
 
     </div>
 
+    {{---------------------------------------------------------------------------------------------------}}
+
+    <div class="card">
+        <div class="card-header">
+            <strong>Agenda de Citas por Médico</strong>
+        </div>
+        <div class="card-body">
+
+            <form action="{{ route('medicoAgendaCita') }}" method="POST">
+                
+                @csrf
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="medico_id">Medico</label>
+                        
+                        <select name="medico_id" 
+                            class="form-control @error('medico_id') is-invalid @enderror">
+                            
+                            <option value="">-- Selecciona una opción --</option>
+                            
+                            @foreach($medicos as $medico)
+                                <option value="{{ $medico->id }}"
+                                    {{ old('medico_id', $registro->medico_id ?? '') == $medico->id ? 'selected' : '' }}>
+                                    {{ $medico->nombre_completo }}
+                                </option>
+                            @endforeach
+                        </select>
+
+                        @error('medico_id')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="fecha">Fecha</label>
+                        
+                        <input type="date" name="fecha" value="{{ old('fecha') }}" class="form-control @error('fecha') is-invalid @enderror" >
+
+                        @error('fecha')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+                    </div>
+                </div>
+        </div>
+        <div class="card-footer">
+                <div class="text-right mt-3">
+                    <button type="submit" 
+                        class="btn btn-success btn-sm d-inline-flex align-items-center" 
+                        style="gap:6px; border-radius:6px;">
+
+                        <x-lucide-calendar-range style="width:16px; height:16px;"/>
+                        MOSTRAR AGENDA
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
     
 @stop
 

@@ -21,14 +21,18 @@
 @endif
 
 <div class="card">
-    <div class="card-header"></div>
+    <div class="card-header">
+        <a href="{{ route('buscadorCita') }}" class="btn btn-info btn-sm float-right">
+            <i class="fa-solid fa-sliders"></i> NUEVA CITA
+        </a>
+    </div>
     <div class="card-body">
 
         <div class="row">
             <div class="col-md-3"><center><strong>Fecha: </strong>{{ \Carbon\Carbon::parse($fecha)->format('d-m-Y') }}</center></div>
-            <div class="col-md-3"><center><strong>Médico: </strong>{{ $consultaHorarioUno->medico->nombre_completo ?? '' }}</center></div>
-            <div class="col-md-3"><center><strong>Paciente: </strong>{{ $consultaHorarioUno->paciente->nombre_completo_completo ?? '' }}</center></div>
-            <div class="col-md-3"><center><strong>Diagnóstico: </strong>{{ $consultaHorarioUno->paciente->diagnostico->nombre ?? '' }}</center></div>
+            <div class="col-md-3"><center><strong>Médico: </strong>{{ $medico->nombre_completo }}</center></div>
+            <div class="col-md-3"><center><strong>Paciente: </strong>{{ $paciente->nombre_completo ?? '' }}</center></div>
+            <div class="col-md-3"><center><strong>Diagnóstico: </strong>{{ $paciente->diagnostico->nombre ?? '' }}</center></div>
         </div>
     </div>
 </div>

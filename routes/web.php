@@ -8,6 +8,7 @@ use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TipoDeCancerController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -101,6 +102,8 @@ Route::middleware(['auth'])->group(function ()
     Route::get('admin/citas/create-cita', [CitaController::class,'createCita'])->name('createCita');
 
     Route::post('admin/citas/store-cita', [CitaController::class,'storeCita'])->name('storeCita');
+
+    Route::post('admin/citas/medico-agenda-citas', [CitaController::class,'medicoAgendaCita'])->name('medicoAgendaCita');
     
     /******************************************************
      * 
@@ -197,6 +200,26 @@ Route::middleware(['auth'])->group(function ()
     Route::put('admin/settings/afiliaciones/update/{id}', [CatAfiliacionesController::class,'afiliacionesUpdate'])->name('afiliacionesUpdate');
 
     Route::delete('admin/settings/afiliaciones/destroy/{id}', [CatAfiliacionesController::class, 'afiliacionesDestroy'])->name('afiliacionesDestroy');
+
+    /******************************************************
+     * 
+     * 
+     * USUARIOS
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/settings/usuarios/index', [UserController::class,'usuariosIndex'])->name('usuariosIndex');
+
+    Route::get('admin/settings/usuarios/create', [UserController::class,'usuariosCreate'])->name('usuariosCreate');
+
+    Route::post('admin/settings/usuarios/store', [UserController::class,'usuariosStore'])->name('usuariosStore');
+
+    Route::get('admin/settings/usuarios/edit/{id}', [UserController::class,'usuariosEdit'])->name('usuariosEdit');
+
+    Route::put('admin/settings/usuarios/update/{id}', [UserController::class,'usuariosUpdate'])->name('usuariosUpdate');
+
+    Route::delete('admin/settings/usuarios/destroy/{id}', [UserController::class, 'usuariosDestroy'])->name('usuariosDestroy');
 
 
 
