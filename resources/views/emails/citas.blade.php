@@ -1,18 +1,34 @@
 <x-mail::message>
 
+# 🏥 REPORTE DE CITAS MÉDICAS
+
+---
+
 <x-mail::panel>
 
-<p><strong>Reporte de citas</strong></p>
-<p>Estimado(a) Dr(a). {{ $medico->nombre_completo }}</p>
+**Estimado(a) Dr(a). {{ $medico->nombre_completo }}:**
 
-<p>Se adjunta el listado de citas correspondientes al día {{ $fecha }}.</p> 
-<p>Favor de revisar su agenda.</p>
+Le informamos que se adjunta el **reporte de citas programadas** correspondiente a la siguiente fecha:
+
+📅 **{{ $fecha }}**
+
+Le solicitamos atentamente revisar su agenda y tomar las medidas necesarias para la adecuada atención de los pacientes.
 
 </x-mail::panel>
 
+---
+
+En caso de cualquier aclaración o incidencia, favor de comunicarse con el área correspondiente.
+
+Gracias por su compromiso y servicio.
+
+---
+
 <x-mail::subcopy>
-  <p><small>Secretaría de Salud de Coahuila de Zaragoza</small></p>
-  <p><small>Este mensaje fue generado automáticamente. Favor de no responder.</small></p>
+**Secretaría de Salud de Coahuila de Zaragoza**  
+Sistema de Gestión Hospitalaria
+
+_Este mensaje fue generado automáticamente. Favor de no responder._
 </x-mail::subcopy>
 
 </x-mail::message>
