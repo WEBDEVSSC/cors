@@ -104,6 +104,10 @@ Route::middleware(['auth'])->group(function ()
     Route::post('admin/citas/store-cita', [CitaController::class,'storeCita'])->name('storeCita');
 
     Route::post('admin/citas/medico-agenda-citas', [CitaController::class,'medicoAgendaCita'])->name('medicoAgendaCita');
+
+    Route::delete('admin/citas/medico-agenda-citas-destroy/{id}', [CitaController::class,'medicoAgendaCitaDestroy'])->name('medicoAgendaCitaDestroy');
+
+    Route::get('admin/citas/reporte-citas', [CitaController::class, 'reportePDFCitas'])->name('reportePDFCitas');
     
     /******************************************************
      * 

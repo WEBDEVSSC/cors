@@ -64,6 +64,11 @@ class Medico extends Model
         return "{$this->nombre} {$this->apellido_paterno} {$this->apellido_materno}";
     }
 
+    public function citas()
+    {
+        return $this->hasMany(Cita::class, 'medico_id');
+    }
+
     /**
      * Accesor para horario completo
      */

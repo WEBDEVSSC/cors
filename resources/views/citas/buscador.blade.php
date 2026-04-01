@@ -117,8 +117,7 @@
                     <div class="col-md-3">
                         <label for="medico_id">Medico</label>
                         
-                        <select name="medico_id" 
-                            class="form-control @error('medico_id') is-invalid @enderror">
+                        <select name="medico_id" class="form-control @error('medico_id') is-invalid @enderror">
                             
                             <option value="">-- Selecciona una opción --</option>
                             

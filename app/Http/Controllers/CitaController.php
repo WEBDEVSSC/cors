@@ -8,6 +8,7 @@ use App\Models\MedicoVacacion;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CitaController extends Controller
 {
@@ -120,72 +121,68 @@ class CitaController extends Controller
         $consultaHorarioTres = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '09:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioCuatro = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '09:30:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioCinco = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '10:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioSeis = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '10:30:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioSiete = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '11:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioOcho = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '11:30:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioNueve = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '12:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioDiez = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '12:30:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioOnce = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '13:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioDoce = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '13:30:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioTrece = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '14:00:00')
-            ->exists();
+            ->first();
 
         $consultaHorarioCatorce = Cita::where('medico_id', $request->medico_id)
             ->where('fecha', $request->fecha)
             ->where('hora', '14:30:00')
-            ->exists();
-
-        $consultaCitas = Cita::where('medico_id', $request->medico_id)
-            ->where('fecha', $request->fecha)
-            ->get();
+            ->first();
 
         $medico = Medico::findOrFail($request->medico_id);
         
         $paciente = Paciente::findOrFail($request->paciente_id);
 
-        return view('citas.create', compact('medico', 'paciente', 'medico_id', 'paciente_id', 'fecha', 'consultaHorarioUno', 'consultaHorarioDos', 'consultaHorarioTres', 'consultaHorarioCuatro', 'consultaHorarioCinco', 'consultaHorarioSeis', 'consultaHorarioSiete', 'consultaHorarioOcho', 'consultaHorarioNueve', 'consultaHorarioDiez', 'consultaHorarioOnce', 'consultaHorarioDoce', 'consultaHorarioTrece', 'consultaHorarioCatorce', 'consultaCitas'));
+        return view('citas.create', compact('medico', 'paciente', 'medico_id', 'paciente_id', 'fecha', 'consultaHorarioUno', 'consultaHorarioDos', 'consultaHorarioTres', 'consultaHorarioCuatro', 'consultaHorarioCinco', 'consultaHorarioSeis', 'consultaHorarioSiete', 'consultaHorarioOcho', 'consultaHorarioNueve', 'consultaHorarioDiez', 'consultaHorarioOnce', 'consultaHorarioDoce', 'consultaHorarioTrece', 'consultaHorarioCatorce'));
     }
 
     public function storeCita(Request $request)
@@ -220,10 +217,9 @@ class CitaController extends Controller
     }
 
     public function medicoAgendaCita(Request $request)
-    {
-        dd($request->all());    
+    {  
     
-    $request->validate([
+        $request->validate([
             'medico_id' => 'required|exists:medicos,id',
             'fecha' => 'required|date|after_or_equal:today',
         ], [
@@ -234,10 +230,71 @@ class CitaController extends Controller
             'fecha.after_or_equal' => 'La fecha debe ser hoy o en el futuro.',
         ]);
 
+        $citas = Cita::where('medico_id', $request->medico_id)
+            ->where('fecha', $request->fecha)
+            ->orderBy('hora', 'asc')
+            ->get();
+
         $medico = Medico::findOrFail($request->medico_id);
 
-        $agenda = $medico->agendaCitas($request->fecha);
+        $fecha = Carbon::parse($request->fecha);
+        
+        return view('citas.agenda', compact('citas', 'medico', 'fecha'));
+    }
 
-        return response()->json($agenda);
+    public function medicoAgendaCitaDestroy($id)
+    {
+        $cita = Cita::findOrFail($id);
+
+        $cita->delete();
+
+         return redirect()->route('buscadorCita')->with('success', 'Cita eliminada exitosamente');
+    }
+
+    public function reportePDFCitas(Request $request)
+    {
+        $request->validate([
+            'medico_id' => 'required|exists:medicos,id',
+            'fecha' => 'required|date|after_or_equal:today',
+        ]);
+
+        // Obtener citas
+        $citas = Cita::with([
+                'paciente.diagnostico',
+                'paciente.afiliacion'
+            ])
+            ->where('medico_id', $request->medico_id)
+            ->whereDate('fecha', $request->fecha)
+            ->orderBy('hora', 'asc')
+            ->get();
+
+        // Generar horarios
+        $horarios = [];
+        $inicio = Carbon::createFromTime(8, 0);
+        $fin = Carbon::createFromTime(14, 30);
+
+        while ($inicio <= $fin) {
+            $horarios[] = $inicio->format('H:i');
+            $inicio->addMinutes(30);
+        }
+
+        // Mapear citas por hora
+        $citasPorHora = $citas->keyBy(function ($cita) {
+            return Carbon::parse($cita->hora)->format('H:i');
+        });
+
+        // Datos adicionales
+        $fecha = Carbon::parse($request->fecha)->format('d-m-Y');
+        $medico = Medico::findOrFail($request->medico_id);
+
+        // PDF
+        $pdf = Pdf::loadView('pdf.citas_pdf', compact(
+            'horarios',
+            'citasPorHora',
+            'fecha',
+            'medico'
+        ));
+
+        return $pdf->stream('reporte_citas.pdf');
     }
 }
