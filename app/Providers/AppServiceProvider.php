@@ -34,9 +34,19 @@ class AppServiceProvider extends ServiceProvider
             return $user->role === 'farmacia';
         });
 
-        // ROL FARMACIA 
+        // ROL RECEPCION 
         Gate::define('recepcion', function ($user) {
             return $user->role === 'recepcion';
         });
+
+        // ROL MEDICO CONSULA EXTERNA
+        Gate::define('consultaExternaMedico', function ($user) {
+            return $user->role === 'consultaExternaMedico';
+        });
+
+        // ROL CENTRAL DE ENFERMERIA CONSULTA EXTERNA
+        Gate::define('consultaExternaEnfermeria', function ($user) {
+            return $user->role === 'consultaExternaEnfermeria';
+        }); 
     }
 }

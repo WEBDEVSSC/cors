@@ -3,7 +3,9 @@
 use App\Http\Controllers\CatAfiliacionesController;
 use App\Http\Controllers\CatEspecialidadMedicaController;
 use App\Http\Controllers\CitaController;
+use App\Http\Controllers\ConsultaExternaController;
 use App\Http\Controllers\FarmaciaController;
+use App\Http\Controllers\MedicoCitaController;
 use App\Http\Controllers\MedicoController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\SettingsController;
@@ -108,6 +110,25 @@ Route::middleware(['auth'])->group(function ()
     Route::delete('admin/citas/medico-agenda-citas-destroy/{id}', [CitaController::class,'medicoAgendaCitaDestroy'])->name('medicoAgendaCitaDestroy');
 
     Route::get('admin/citas/reporte-citas', [CitaController::class, 'reportePDFCitas'])->name('reportePDFCitas');
+
+    /******************************************************
+     * 
+     * 
+     * MODULO DE CONSULTA EXTERNA
+     * 
+     * 
+     ******************************************************/
+
+    Route::get('admin/consulta-externa/medico/mis-citas',[ConsultaExternaController::class, 'medicoMisCitas'])->name('medicoMisCitas');
+
+    Route::get('admin/medicos/consulta/iniciar-cita/{id}', [ConsultaExternaController::class, 'iniciarCita'])->name('iniciarCita');
+
+    Route::get('admin/consulta-externa/central-enfermeria/mis-citas',[ConsultaExternaController::class, 'centralEnfermeriaMisCitas'])->name('centralEnfermeriaMisCitas');
+
+    Route::get('admin/consulta-externa/central-enfermeria/toma-signos-vitales-create/{id}',[ConsultaExternaController::class, 'centralEnfermeriaTomaSignosVitalesCreate'])->name('centralEnfermeriaTomaSignosVitalesCreate');
+
+    Route::put('admin/consulta-externa/central-enfermeria/toma-signos-vitales-update/{id}',[ConsultaExternaController::class, 'centralEnfermeriaTomaSignosVitalesUpdate'])->name('centralEnfermeriaTomaSignosVitalesUpdate');
+
     
     /******************************************************
      * 

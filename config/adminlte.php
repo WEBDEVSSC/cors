@@ -418,6 +418,52 @@ return [
             ],
         ],
 
+        /*
+        |
+        |
+        |
+        | MENU PARA CONSULTA EXTERNADE MEDICOS
+        |
+        |
+        |
+         */
+
+        [
+            'text' => 'Consulta Externa',
+            'icon' => 'fa-solid fa-user-md',
+            'submenu' => [
+                [
+                    'text' => 'Mis Citas',
+                    'url' => 'admin/consulta-externa/medico/mis-citas',
+                    'can' => 'consultaExternaMedico',
+                    'icon' => 'fa-solid fa-calendar-check',
+                ],
+            ],
+        ],
+
+        /*
+        |
+        |
+        |
+        | MENU PARA CONSULTA EXTERNA DE CENTRAL DE ENFERMERIA
+        |
+        |
+        |
+         */
+
+        [
+            'text' => 'Consulta Externa',
+            'icon' => 'fa-solid fa-user-md',
+            'submenu' => [
+                [
+                    'text' => 'Mis Citas',
+                    'url' => 'admin/consulta-externa/central-enfermeria/mis-citas',
+                    'can' => 'consultaExternaEnfermeria',
+                    'icon' => 'fa-solid fa-calendar-check',
+                ],
+            ],
+        ],
+
     ],
 
     /*

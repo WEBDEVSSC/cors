@@ -15,11 +15,31 @@ class Cita extends Model
         'medico_id',
         'fecha',
         'hora',
+        'peso',
+        'talla',
+        'sistolica',
+        'diastolica',
+        'cardiaca',
+        'respiratoria',
+        'temperatura',
+        'saO2',
+        'dolor',
+        'caidas',
     ];
 
     protected $casts = [
         'fecha' => 'date',
         'hora' => 'datetime:H:i',
+        'peso' => 'decimal:2',
+        'talla' => 'decimal:2',
+        'sistolica' => 'integer',
+        'diastolica' => 'integer',
+        'cardiaca' => 'integer',
+        'respiratoria' => 'integer',
+        'temperatura' => 'decimal:1',
+        'saO2' => 'integer',
+        'dolor' => 'integer',
+        'caidas' => 'boolean',
     ];
 
     public function getFechaFormateadaAttribute()
