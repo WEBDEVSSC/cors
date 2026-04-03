@@ -102,8 +102,8 @@ class ConsultaExternaController extends Controller
     public function centralEnfermeriaTomaSignosVitalesUpdate(Request $request, $id)
     {
         $request->validate([
-        'peso' => 'required|numeric',
-        'talla' => 'required|numeric',
+        'peso' => 'required|numeric|min:1',
+        'talla' => 'required|numeric|min:50',
         'sistolica' => 'required|integer',
         'diastolica' => 'required|integer',
         'cardiaca' => 'required|integer',
@@ -162,6 +162,7 @@ class ConsultaExternaController extends Controller
 
         $cita->peso = $request->peso;
         $cita->talla = $request->talla;
+        $cita->imc = $request->peso / (($request->talla/100) ** 2); // IMC en kg/m²
         $cita->sistolica = $request->sistolica;
         $cita->diastolica = $request->diastolica;
         $cita->cardiaca = $request->cardiaca;
@@ -176,5 +177,17 @@ class ConsultaExternaController extends Controller
         $cita->save();
 
         return redirect()->route('centralEnfermeriaMisCitas')->with('success', 'Signos vitales registrados correctamente');
+    }
+
+    public function centralEnfermeriaTomaSignosVitalesShow($id)
+    {
+        $cita = Cita::findOrFail($id);
+
+        // Validar que la cita exista
+        if (!$cita) {
+            return back()->with('error', 'Cita no encontrada');
+        }
+
+        return view('consulta-externa.central-enfermeria-show-signos-vitales', compact('cita'));
     }
 }

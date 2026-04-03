@@ -5,7 +5,7 @@
 @section('plugins.Sweetalert2', true)
 
 @section('content_header')
-    <h1><strong>Central De Enfermeria</strong> <small class="text-muted">Agenda del Día</small></h1>
+    <h1><strong>Central De Enfermería</strong> <small class="text-muted">Agenda del Día</small></h1>
 @stop
 
 @section('content')
@@ -51,17 +51,17 @@
                                 <td>
                                     @if ($cita->signos_vitales == 0)
 
-                                        <a href="{{ route('centralEnfermeriaTomaSignosVitalesCreate', $cita->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="INICIAR CITA">
+                                        <a href="{{ route('centralEnfermeriaTomaSignosVitalesCreate', $cita->id) }}" class="btn btn-sm btn-info btn-block" data-toggle="tooltip" title="INICIAR CITA">
                                             <x-lucide-heart-pulse style="width:16px; height:16px;" />
-                                            SIGNOS VITALES
+                                            TOMAR SIGNOS VITALES
                                         </a>
 
                                     @else
 
-                                        <span class="text-success">
+                                        <a href="{{ route('centralEnfermeriaTomaSignosVitalesShow', $cita->id) }}" class="btn btn-sm btn-success btn-block" data-toggle="tooltip" title="INICIAR CITA">
                                             <x-lucide-heart-plus style="width:16px; height:16px;" />
-                                            Signos Vitales Tomados
-                                        </span>
+                                            VER SIGNOS VITALES
+                                        </a>
                                         
                                     @endif
                                     

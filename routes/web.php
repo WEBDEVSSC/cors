@@ -129,6 +129,8 @@ Route::middleware(['auth'])->group(function ()
 
     Route::put('admin/consulta-externa/central-enfermeria/toma-signos-vitales-update/{id}',[ConsultaExternaController::class, 'centralEnfermeriaTomaSignosVitalesUpdate'])->name('centralEnfermeriaTomaSignosVitalesUpdate');
 
+    Route::get('admin/consulta-externa/central-enfermeria/toma-signos-vitales-show/{id}',[ConsultaExternaController::class, 'centralEnfermeriaTomaSignosVitalesShow'])->name('centralEnfermeriaTomaSignosVitalesShow');
+
     
     /******************************************************
      * 
