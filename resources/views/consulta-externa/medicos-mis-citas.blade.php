@@ -32,6 +32,7 @@
                         <th>Afiliación</th>
                         <th>Expediente</th>
                         <th><center>Signos Vitales</center></th>
+                        <th>Valoración Inicial</th>
                         
                         <th></th>
                     </tr>
@@ -72,12 +73,38 @@
                                 </td>
 
                                 <td>
+                                    @if($cita->valoracionInicial)
+                                        <a href="{{ route('medicoValoracionInicialShow',$cita->id) }}">
+                                            <button type="submit" 
+                                                class="btn btn-success btn-sm d-inline-flex align-items-center" 
+                                                style="gap:6px; border-radius:6px;">
+
+                                                <x-lucide-heart-plus style="width:16px; height:16px;"/>
+                                                VER
+                                            </button>
+                                        </a>
+                                    @else
+
+                                        <a href="{{ route('medicoValoracionInicialCreate',$cita->id) }}">
+                                            <button type="submit" 
+                                                class="btn btn-danger btn-sm d-inline-flex align-items-center" 
+                                                style="gap:6px; border-radius:6px;">
+
+                                                <x-lucide-clipboard-plus style="width:16px; height:16px;"/>
+                                                REGISTRAR
+                                            </button>
+                                        </a>
+
+                                    @endif
+                                </td>
+
+                                <td>
                                     <a href="{{ route('iniciarCita', $cita->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="INICIAR CITA">
                                         <i class="fas fa-stethoscope"></i> INICIAR CITA
                                     </a>
                                 </td>
                             @else
-                                <td colspan="6" class="text-center text-muted">
+                                <td colspan="7" class="text-center text-muted">
                                     Disponible
                                 </td>
                             @endif

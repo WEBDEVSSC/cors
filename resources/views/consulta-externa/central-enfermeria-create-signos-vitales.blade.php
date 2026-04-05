@@ -148,7 +148,14 @@
                     @enderror
                 </div>
                 
-            </div>    
+            </div>  
+            
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <p><strong>Exploración Física</strong></p>
+                    <textarea name="exploracion_fisica" id="exploracion_fisica" cols="30" rows="5" class="form-control">{{ old('exploracion_fisica', $cita->exploracion_fisica) }}</textarea>
+                </div>
+            </div>
 
         </div>
 

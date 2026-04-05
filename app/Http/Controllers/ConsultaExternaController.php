@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CatCie10;
+use App\Models\CatTipoDeCancer;
 use App\Models\Cita;
+use App\Models\CitaValoracionInicial;
 use App\Models\Medico;
+use App\Models\Paciente;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 
 class ConsultaExternaController extends Controller
 {
@@ -112,6 +118,7 @@ class ConsultaExternaController extends Controller
         'saO2' => 'required|integer',
         'dolor' => 'required|integer',
         'caidas' => 'required|boolean',
+        'exploracion_fisica' => 'nullable|string',
     ], [
         // Peso
         'peso.required' => 'El peso es obligatorio',
@@ -151,6 +158,9 @@ class ConsultaExternaController extends Controller
         // Caídas
         'caidas.required' => 'Debe indicar si el paciente ha tenido caídas',
         'caidas.boolean' => 'El campo caídas debe ser verdadero o falso',
+
+        // Exploración física
+        'exploracion_fisica.string' => 'La exploración física debe ser un texto válido',
     ]);
 
         $cita = Cita::findOrFail($id);
@@ -171,6 +181,7 @@ class ConsultaExternaController extends Controller
         $cita->saO2 = $request->saO2;
         $cita->dolor = $request->dolor;
         $cita->caidas = $request->caidas;
+        $cita->exploracion_fisica = $request->exploracion_fisica;
 
         $cita->signos_vitales = 1;
 
@@ -189,5 +200,95 @@ class ConsultaExternaController extends Controller
         }
 
         return view('consulta-externa.central-enfermeria-show-signos-vitales', compact('cita'));
+    }
+
+    public function medicoValoracionInicialCreate($id)
+    {
+        $cita = Cita::findOrFail($id);
+
+        // Validar que la cita sea del médico autenticado
+        if ($cita->medico_id !== Auth::user()->id_medico) {
+            return back()->with('error', 'No puedes acceder a esta cita');
+        }
+
+        // Cargamos todos los diagnosticos
+
+        $tiposDeCancer = CatTipoDeCancer::all();
+
+        // Cargamos todos los diagnosticos de la CIE 10
+
+        $diagnosticosCIE10 = CatCie10::all();
+
+        // Cargamos al paciente para comparar el campo diagnostico
+
+        $paciente = Paciente::findOrFail($cita->paciente_id);
+
+        return view('consulta-externa.medicos-valoracion-inicial-create', compact('cita', 'tiposDeCancer', 'diagnosticosCIE10', 'paciente'));
+    }
+
+    public function medicoValoracionInicialStore(Request $request, $id)
+    {
+        $request->validate([
+            'paciente' => 'required|exists:pacientes,id',
+            'padecimiento_actual' => 'required|string',
+            'estudios_laboratorio' => 'required|string',
+            'tipo_cancer_id' => 'required|string',
+            'id_diagnostico_cie10' => 'required|string',
+            'pronostico' => 'required|string',
+            'analisis' => 'required|string',
+        ], [
+            'padecimiento_actual.required' => 'El padecimiento actual es obligatorio',
+            'padecimiento_actual.string' => 'El padecimiento actual debe ser un texto válido',
+            'estudios_laboratorio.required' => 'Los estudios de laboratorio son obligatorios',
+            'estudios_laboratorio.string' => 'Los estudios de laboratorio deben ser un texto válido',
+            'tipo_cancer_id.required' => 'El tipo de cáncer es obligatorio',
+            'tipo_cancer_id.string' => 'El tipo de cáncer debe ser un texto válido',
+            'id_diagnostico_cie10.required' => 'El diagnóstico CIE-10 es obligatorio',
+            'id_diagnostico_cie10.string' => 'El diagnóstico CIE-10 debe ser un texto válido',
+            'pronostico.required' => 'El pronóstico es obligatorio',
+            'pronostico.string' => 'El pronóstico debe ser un texto válido',
+            'analisis.required' => 'El análisis es obligatorio',
+            'analisis.string' => 'El análisis debe ser un texto válido',
+        ]);
+
+        $medicoId = Auth::user()->id_medico;
+
+        $valoracionInicial = new CitaValoracionInicial();
+
+        $valoracionInicial->tipo_cancer_id = $request->tipo_cancer_id;
+        $valoracionInicial->id_diagnostico_cie10 = $request->id_diagnostico_cie10;
+        $valoracionInicial->paciente_id = $request->paciente;
+        $valoracionInicial->cita_id = $id;
+        $valoracionInicial->padecimiento_actual = $request->padecimiento_actual;
+        $valoracionInicial->estudios_laboratorio = $request->estudios_laboratorio;
+        $valoracionInicial->pronostico = $request->pronostico;
+        $valoracionInicial->analisis = $request->analisis;
+        $valoracionInicial->id_medico = $medicoId;
+
+        $valoracionInicial->save();
+
+        return redirect()->route('medicoMisCitas')->with('success', 'Valoración inicial registrada correctamente');
+    }
+
+    public function medicoValoracionInicialShow($id)
+    {
+        $valoracionInicial = CitaValoracionInicial::findOrFail($id);
+
+        // Validar que la valoración inicial exista
+        if (!$valoracionInicial) {
+            return back()->with('error', 'Valoración inicial no encontrada');
+        }
+
+        return view('consulta-externa.medicos-valoracion-inicial-show', compact('valoracionInicial'));
+    }
+
+    public function medicoValoracionInicialPDF($id)
+    {
+        $valoracionInicial = CitaValoracionInicial::with(['paciente', 'medico.especialidad'])
+            ->findOrFail($id);
+
+        $pdf = Pdf::loadView('pdf.medicos-valoracion-inicial-pdf', compact('valoracionInicial'));
+
+        return $pdf->stream('valoracion_inicial.pdf'); // 👈 abre en navegador
     }
 }

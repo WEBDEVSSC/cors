@@ -38,6 +38,12 @@ class Paciente extends Model
         return $this->belongsTo(CatTipoDeCancer::class, 'diagnostico_id');
     }
 
+    // Diagnóstico CIE 10
+    public function diagnosticoCie10()
+    {
+        return $this->belongsTo(CatCie10::class, 'id_diagnostico_cie10');
+    }
+
     // Cirujano oncólogo
     public function cirujano()
     {

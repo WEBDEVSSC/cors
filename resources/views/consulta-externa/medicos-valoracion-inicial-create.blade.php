@@ -5,14 +5,36 @@
 @section('plugins.Sweetalert2', true)
 
 @section('content_header')
-    <h1><strong>Central De Enfermería</strong> <small class="text-muted">Detalles de Toma de Signos Vitales</small></h1>
+    <h1><strong>Médicos</strong> <small class="text-muted">Valoración Inicial</small></h1>
 @stop
 
 @section('content')
 
 <div class="card">
     <div class="card-header">
-        
+        <strong>Datos Generales del Paciente</strong>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <strong>Nombre</strong>
+                <p>{{ $cita->paciente->nombre_completo }}</p>
+            </div>
+            <div class="col-md-2">
+                <strong>Afiliación</strong>
+                <p>{{ $cita->paciente->afiliacion->afiliacion }}</p>
+            </div>
+            <div class="col-md-2">
+                <strong>Expediente</strong>
+                <p>{{ $cita->paciente->expediente }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <strong>Signos Vitales</strong>
     </div>
 
         <div class="card-body">
@@ -403,27 +425,118 @@
             </div>
 
         </div>
+    
+</div>
+
+<div class="card">
+
+    <form action="{{ route('medicoValoracionInicialStore', $cita->id) }}" method="POST">
+        @csrf
+
+        <input type="hidden" name="paciente" value="{{ $cita->paciente_id }}">
+
+        <div class="card-body">
+
+            {{-- DATOS GENERALES --}}
+            <div class="row">
+
+                <div class="col-md-12">
+                    <label for="padecimiento_actual">Padecimiento Actual (Oncológico)</label>
+                    <textarea name="padecimiento_actual" id="padecimiento_actual" cols="30" rows="5" class="form-control">{{ old('padecimiento_actual') }}</textarea>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-md-12">
+                    <label for="estudios_laboratorio">Estudios de Laboratorio e Imágen</label>
+                    <textarea name="estudios_laboratorio" id="estudios_laboratorio" cols="30" rows="5" class="form-control">{{ old('estudios_laboratorio') }}</textarea>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-md-6">
+                    <label for="tipo_cancer_id">Diagnóstico</label>
+                    <select name="tipo_cancer_id" id="tipo_cancer_id" class="form-control @error('tipo_cancer_id') is-invalid @enderror">
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($tiposDeCancer as $tipo)
+                            <option value="{{ $tipo->id }}" 
+                                {{ old('tipo_cancer_id', $paciente->diagnostico_id) == $tipo->id ? 'selected' : '' }}>
+                                {{ $tipo->nombre }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('tipo_cancer_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-6">
+                    <label for="id_diagnostico_cie10">Diagnóstico CIE-10</label>
+                    <select name="id_diagnostico_cie10" id="id_diagnostico_cie10" class="form-control @error('id_diagnostico_cie10') is-invalid @enderror">
+                        <option value="">-- Selecciona una opcion --</option>
+
+                        @foreach($diagnosticosCIE10 as $diag)
+                            <option value="{{ $diag->id }}" 
+                                {{ old('id_diagnostico_cie10', $paciente->id_diagnostico_cie10) == $diag->id ? 'selected' : '' }}>
+                                {{ $diag->codigo }} - {{ $diag->descripcion }}
+                            </option>
+                        @endforeach
+                    </select>
+
+                    @error('id_diagnostico_cie10')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-md-12">
+                    <label for="pronostico">Pronóstico</label>
+                    <textarea name="pronostico" id="pronostico" cols="30" rows="5" class="form-control">{{ old('pronostico') }}</textarea>
+                </div>
+
+            </div>
+
+            <div class="row mt-3">
+
+                <div class="col-md-12">
+                    <label for="analisis">Análisis, Propuesta de Tratamiento e Indicaciones</label>
+                    <textarea name="analisis" id="analisis" cols="30" rows="5" class="form-control">{{ old('analisis') }}</textarea>
+                </div>
+
+            </div>
+            
+            
+
+        </div>
 
         <div class="card-footer">
 
             <div class="text-right mt-3">
-
-                <a href="{{ route('centralEnfermeriaTomaSignosVitalesCreate', $cita->id) }}">
                 
                 <button type="submit" 
                     class="btn btn-success btn-sm d-inline-flex align-items-center" 
                     style="gap:6px; border-radius:6px;">
 
-                    <x-lucide-user-round-pen style="width:16px; height:16px;"/>
-                    ACTUALIZAR DATOS
+                    <x-lucide-save style="width:16px; height:16px;"/>
+                    REGISTRAR DATOS
                 </button>
-
-               </a>
                 
             </div>
         </div>
-    
+    </form>
 </div>
+
+@include('partials.footer')
+
 @stop
 
 @section('css')

@@ -7,7 +7,7 @@
     <style>
         body {
             font-family: DejaVu Sans, Arial, sans-serif;
-            font-size: 11px;
+            font-size: 9px;
             color: #333;
         }
 

@@ -5,14 +5,103 @@
 @section('plugins.Sweetalert2', true)
 
 @section('content_header')
-    <h1><strong>Central De Enfermería</strong> <small class="text-muted">Detalles de Toma de Signos Vitales</small></h1>
+    <h1><strong>Valoración Inicial</strong> <small class="text-muted">Detalles de la Valoración Inicial</small></h1>
 @stop
 
 @section('content')
 
+<div class="d-flex justify-content-end">
+    <a href="{{ route('medicoValoracionInicialPDF',$valoracionInicial->id) }}" target="_blank">
+        <button type="button" 
+            class="btn btn-danger btn-sm d-inline-flex align-items-center" 
+            style="gap:6px; border-radius:6px;">
+
+            <x-lucide-file-user style="width:16px; height:16px;"/>
+            IMPRIMIR PDF
+        </button>
+    </a>
+</div>
+
+<br>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- DATOS GENERALES DEL PACIENTE --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="card">
+    <div class="card-header"><strong>Datos Generales del Paciente</strong></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-2">
+                <p><strong>CURP</strong></p>
+                <p>{{ $valoracionInicial->paciente->curp ?? '' }}</p>
+            </div>
+            <div class="col-md-3">
+                <p><strong>Nombre</strong></p>
+                <p>{{ $valoracionInicial->paciente->nombre_completo ?? '' }}</p>
+            </div>
+            <div class="col-md-2">
+                <p><strong>Edad</strong></p>
+                {{ $valoracionInicial->edad_paciente }} años
+            </div>
+            <div class="col-md-2">
+                <p><strong>Sexo</strong></p>
+                {{ $valoracionInicial->paciente->sexo ?? '' }}
+            </div>
+            <div class="col-md-3">
+                <p><strong>Residente</strong></p>
+                <p>{{ $valoracionInicial->paciente->residencia ?? '' }}</p>
+            </div>
+            
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-md-2">
+                <p><strong>Ocupación</strong></p>
+                <p>{{ $valoracionInicial->paciente->ocupacion ?? '' }}</p>
+            </div>
+            <div class="col-md-3">
+                <p><strong>Teléfono</strong></p>
+                <p>{{ $valoracionInicial->paciente->telefono ?? '' }}</p>
+            </div>
+            <div class="col-md-2">
+                <p><strong>Fecha de Nacimiento</strong></p>
+                <p>{{ $valoracionInicial->paciente->fecha_nacimiento ? $valoracionInicial->paciente->fecha_nacimiento->format('d-m-Y') : '' }}</p>
+            </div>
+            <div class="col-md-2">
+                <p><strong>Expediente</strong></p>
+                <p>{{ $valoracionInicial->paciente->expediente ?? '' }}</p>
+            </div>
+            <div class="col-md-3">
+                <p><strong>Afiliación</strong></p>
+                <p>{{ $valoracionInicial->paciente->afiliacion->afiliacion ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- PADECIMIENTO ACTUAL --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="card">
+    <div class="card-header"><strong>Padecimiento Actual (Oncológico)</strong></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{ $valoracionInicial->padecimiento_actual ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- SIGNOS VITALES Y EXPLORACIÓN FÍSICA --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
 <div class="card">
     <div class="card-header">
-        
+        <strong>Signos Vitales y Exploración Física</strong>
     </div>
 
         <div class="card-body">
@@ -22,18 +111,18 @@
 
                 <div class="col-md-2">
                     <p><strong>Peso (kg)</strong></p>
-                    {{ $cita->peso }}
+                    {{ $valoracionInicial->cita->peso }}
                 </div>
 
                 <div class="col-md-2">
                     <p><strong>Talla (cm)</strong></p>
-                    {{ $cita->talla }}
+                    {{ $valoracionInicial->cita->talla }}
                 </div>
 
                 <div class="col-md-2">
                 <p><strong>IMC</strong></p>
 
-                @php $imc = $cita->imc; @endphp
+                @php $imc = $valoracionInicial->cita->imc; @endphp
 
                 @if($imc)
                     @if($imc < 18.5)
@@ -72,8 +161,8 @@
             <p><strong>Presión Arterial (mmHg)</strong></p>
 
             @php
-                $sis = $cita->sistolica;
-                $dia = $cita->diastolica;
+                $sis = $valoracionInicial->cita->sistolica;
+                $dia = $valoracionInicial->cita->diastolica;
             @endphp
 
             @if($sis && $dia)
@@ -120,7 +209,7 @@
             <p><strong>Frecuencia Cardíaca (bpm)</strong></p>
 
             @php
-                $fc = $cita->cardiaca;
+                $fc = $valoracionInicial->cita->cardiaca;
             @endphp
 
             @if($fc)
@@ -161,7 +250,7 @@
             <p><strong>Temperatura (°C)</strong></p>
 
             @php
-                $temp = $cita->temperatura;
+                $temp = $valoracionInicial->cita->temperatura;
             @endphp
 
             @if($temp)
@@ -216,7 +305,7 @@
                 <p><strong>Frecuencia Respiratoria (rpm)</strong></p>
 
                 @php
-                    $fr = $cita->respiratoria;
+                    $fr = $valoracionInicial->cita->respiratoria;
                 @endphp
 
                 @if($fr)
@@ -257,7 +346,7 @@
             <p><strong>Saturación de oxígeno (SpO₂ %)</strong></p>
 
             @php
-                $spo2 = $cita->saO2;
+                $spo2 = $valoracionInicial->cita->saO2;
             @endphp
 
             @if($spo2)
@@ -298,7 +387,7 @@
             <p><strong>Dolor</strong></p>
 
             @php
-                $dolor = $cita->dolor;
+                $dolor = $valoracionInicial->cita->dolor;
             @endphp
 
                 @if(!is_null($dolor))
@@ -370,7 +459,7 @@
             <p><strong>¿Ha presentado caídas?</strong></p>
 
             @php
-                $caidas = $cita->caidas;
+                $caidas = $valoracionInicial->cita->caidas;
             @endphp
 
             @if(!is_null($caidas))
@@ -398,32 +487,125 @@
             <div class="row">
                 <div class="col-md-12">
                     <p><strong>Exploración Física</strong></p>
-                    <p>{{ $cita->exploracion_fisica ?? '' }}</p>
+                    <p>{{ $valoracionInicial->cita->exploracion_fisica ?? '' }}</p>
                 </div>
             </div>
 
         </div>
+</div>
 
-        <div class="card-footer">
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- ESTUDIOS DE LABORATORIO E IMAGEN --}}
+{{--------------------------------------------------------------------------------------------------------}}
 
-            <div class="text-right mt-3">
-
-                <a href="{{ route('centralEnfermeriaTomaSignosVitalesCreate', $cita->id) }}">
-                
-                <button type="submit" 
-                    class="btn btn-success btn-sm d-inline-flex align-items-center" 
-                    style="gap:6px; border-radius:6px;">
-
-                    <x-lucide-user-round-pen style="width:16px; height:16px;"/>
-                    ACTUALIZAR DATOS
-                </button>
-
-               </a>
-                
+<div class="card">
+    <div class="card-header"><strong>Estudios de Laboratorio e Imagen</strong></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <p>{{ $valoracionInicial->estudios_laboratorio ?? '' }}</p>
             </div>
         </div>
-    
+    </div>
 </div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- DIAGNÓSTICOS --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <p><strong>Diagnóstico</strong></p>
+            </div>
+            <div class="card-body">
+                <p>{{ $valoracionInicial->paciente->diagnostico->nombre ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <p><strong>Diagnóstico CIE-10</strong></p>
+            </div>
+            <div class="card-body">
+                <p>{{ $valoracionInicial->paciente->diagnosticoCie10->codigo ?? '' }} - {{ $valoracionInicial->paciente->diagnosticoCie10->descripcion ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- PRONOSTICO --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="card">
+    <div class="card-header"><p><strong>Pronóstico</strong></p></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                
+                <p>{{ $valoracionInicial->pronostico ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- ANALISIS --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="card">
+    <div class="card-header"><p><strong>Análisis, Propuesta de Tratamiento e Indicaciones</strong></p></div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                
+                <p>{{ $valoracionInicial->analisis ?? '' }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- MEDICO --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<div class="card shadow-sm border-0 mt-3">
+    <div class="card-body text-center">
+
+        <h5 class="mb-3">
+            <strong>Médico que realizó la valoración</strong>
+        </h5>
+
+        <div class="mb-2">
+            <h4 class="mb-1">
+                {{ $valoracionInicial->medico->nombre_completo ?? 'No asignado' }}
+            </h4>
+        </div>
+
+        <div class="mb-2 text-muted">
+            {{ $valoracionInicial->medico->especialidad->especialidad ?? 'Sin especialidad' }}
+        </div>
+
+        <div class="mt-2">
+            <span class="badge bg-primary">
+                Cédula: {{ $valoracionInicial->medico->cedula ?? 'N/A' }}
+            </span>
+        </div>
+
+    </div>
+</div>
+
+{{--------------------------------------------------------------------------------------------------------}}
+{{-- FIN --}}
+{{--------------------------------------------------------------------------------------------------------}}
+
+<br>
+
+@include('partials.footer')
+
 @stop
 
 @section('css')

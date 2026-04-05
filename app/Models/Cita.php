@@ -63,4 +63,10 @@ class Cita extends Model
     {
         return $this->belongsTo(Medico::class);
     }
+
+    // 🔗 Relación con valoracion inicial
+    public function valoracionInicial()
+    {
+        return $this->hasOne(CitaValoracionInicial::class);
+    }
 }

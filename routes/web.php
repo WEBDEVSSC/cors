@@ -131,6 +131,14 @@ Route::middleware(['auth'])->group(function ()
 
     Route::get('admin/consulta-externa/central-enfermeria/toma-signos-vitales-show/{id}',[ConsultaExternaController::class, 'centralEnfermeriaTomaSignosVitalesShow'])->name('centralEnfermeriaTomaSignosVitalesShow');
 
+    Route::get('admin/consulta-externa/medico/valoracion-inicial-show/{id}',[ConsultaExternaController::class, 'medicoValoracionInicialShow'])->name('medicoValoracionInicialShow');
+
+    Route::get('admin/consulta-externa/medico/valoracion-inicial-create/{id}',[ConsultaExternaController::class, 'medicoValoracionInicialCreate'])->name('medicoValoracionInicialCreate');
+
+    Route::post('admin/consulta-externa/medico/valoracion-inicial-store/{id}',[ConsultaExternaController::class, 'medicoValoracionInicialStore'])->name('medicoValoracionInicialStore');
+
+    Route::get('admin/consulta-externa/medico/valoracion-inicial-PDF/{id}',[ConsultaExternaController::class, 'medicoValoracionInicialPDF'])->name('medicoValoracionInicialPDF');
+
     
     /******************************************************
      * 
