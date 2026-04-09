@@ -27,7 +27,7 @@ return new class extends Migration
 
             // Relaciones
             $table->foreignId('diagnostico_id')
-                ->constrained('tipo_de_cancers')
+                ->constrained('cat_tipos_de_cancer')
                 ->cascadeOnDelete();
 
             $table->foreignId('cirujano_oncologo')
@@ -39,7 +39,7 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->foreignId('afiliacion_id')
-                ->constrained('afiliaciones')
+                ->constrained('cat_afiliaciones')
                 ->cascadeOnDelete();
 
             $table->boolean('primera_vez')->default(true);
