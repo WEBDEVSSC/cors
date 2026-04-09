@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_diagnostico_cie10')
                 ->nullable() // 👈 permite valores NULL
                 ->after('diagnostico_id')
-                ->constrained('cat_cie_10')
+                ->constrained('cat_cie10')
                 ->cascadeOnUpdate()
                 ->nullOnDelete();
         });
