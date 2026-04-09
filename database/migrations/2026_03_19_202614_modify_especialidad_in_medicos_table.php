@@ -13,7 +13,7 @@ return new class extends Migration
 
             $table->foreign('especialidad')
                 ->references('id')
-                ->on('cat_especialidad_medicas')
+                ->on('cat_especialidades_medicas')
                 ->onDelete('cascade');
         });
     }
