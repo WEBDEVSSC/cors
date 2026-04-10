@@ -56,6 +56,8 @@
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>                        
                         <option value="farmacia" {{ old('role') == 'farmacia' ? 'selected' : '' }}>Farmacia</option>                        
                         <option value="recepcion" {{ old('role') == 'recepcion' ? 'selected' : '' }}>Recepción</option>
+                        <option value="consultaExternaMedico" {{ old('role') == 'consultaExternaMedico' ? 'selected' : '' }}>Consulta Externa Médico</option>
+                        <option value="consultaExternaEnfermeria" {{ old('role') == 'consultaExternaEnfermeria' ? 'selected' : '' }}>Consulta Externa Enfermería</option>
                     </select>
 
                     @error('role')
