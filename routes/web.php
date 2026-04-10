@@ -139,6 +139,8 @@ Route::middleware(['auth'])->group(function ()
 
     Route::get('admin/consulta-externa/medico/valoracion-inicial-PDF/{id}',[ConsultaExternaController::class, 'medicoValoracionInicialPDF'])->name('medicoValoracionInicialPDF');
 
+    Route::get('admin/consulta-externa/medico/consulta-subsecuente/{id}',[ConsultaExternaController::class, 'consultaSubsecuente'])->name('consultaSubsecuente');
+
     
     /******************************************************
      * 

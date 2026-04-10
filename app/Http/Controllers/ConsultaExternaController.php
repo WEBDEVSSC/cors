@@ -291,4 +291,16 @@ class ConsultaExternaController extends Controller
 
         return $pdf->stream('valoracion_inicial.pdf'); // 👈 abre en navegador
     }
+
+    public function consultaSubsecuente($id)
+    {
+        $cita = Cita::findOrFail($id);
+
+        // Validar que la cita sea del médico autenticado
+        if ($cita->medico_id !== Auth::user()->id_medico) {
+            return back()->with('error', 'No puedes acceder a esta cita');
+        }
+
+        return view('consulta-externa.medicos-consulta-subsecuente', compact('cita'));
+    }
 }

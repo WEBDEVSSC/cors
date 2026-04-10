@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UsuarioSeeder::class,
             FarmaciaConceptoSeeder::class,
             CatTipoDeCancerSeeder::class,
+            CatCie10Seeder::class,
         ]);
     }
 }
