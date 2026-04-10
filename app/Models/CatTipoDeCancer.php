@@ -16,4 +16,10 @@ class CatTipoDeCancer extends Model
     protected $fillable = [
         'nombre'
     ];
+
+    // En el modelo TipoCancer.php
+    public function setNombreAttribute($value)
+    {
+        $this->attributes['nombre'] = mb_strtoupper($value, 'UTF-8');
+    }
 }

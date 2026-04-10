@@ -19,6 +19,7 @@ class UsuarioSeeder extends Seeder
             'name' => 'Administrador CORS',
             'email' => 'admin@cors.com',
             'password' => Hash::make('Cors1159$'),
+            'role' => 'admin',
         ]);
     }
 }
