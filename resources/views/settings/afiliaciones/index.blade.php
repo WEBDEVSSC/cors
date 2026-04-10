@@ -31,15 +31,8 @@
 
                             <td>
                                 <div class="d-flex gap-1">
-                                    <a href="{{ route('medicosShow', $afiliacion) }}" class="btn btn-sm btn-info mr-1" data-toggle="tooltip"  title="DETALLES">
-                                        <i class="fa-solid fa-eye text-white"></i>
-                                    </a>
 
-                                    <a href="{{ route('medicosVacacionesCreate', $afiliacion) }}" class="btn btn-sm btn-primary mr-1" data-toggle="tooltip" title="VACACIONES">
-                                        <i class="fa-solid fa-calendar text-white"></i>
-                                    </a>
-
-                                    <a href="{{ route('medicosEdit', $afiliacion) }}" class="btn btn-sm btn-warning mr-1" data-toggle="tooltip" title="EDITAR">
+                                    <a href="{{ route('afiliacionesEdit', $afiliacion) }}" class="btn btn-sm btn-warning mr-1" data-toggle="tooltip" title="EDITAR">
                                         <i class="fa-solid fa-edit text-white"></i>
                                     </a>
                                     
