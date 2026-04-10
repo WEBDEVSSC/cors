@@ -56,4 +56,13 @@ class CatEspecialidadMedicaController extends Controller
 
         return redirect()->route('especialidadesMedicasIndex')->with('success', 'Especialidad Médica actualizada exitosamente.');
     }
+
+    public function especialidadesMedicasDestroy($id)
+    {
+        $especialidadMedica = CatEspecialidadMedica::findOrFail($id);
+
+        $especialidadMedica->delete();
+
+        return redirect()->route('especialidadesMedicasIndex')->with('success', 'Especialidad Médica eliminada exitosamente.');
+    }
 }

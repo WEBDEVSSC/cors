@@ -36,6 +36,15 @@
                                         <i class="fa-solid fa-edit text-white"></i>
                                     </a>
 
+                                    <form action="{{ route('especialidadesMedicasDestroy', $especialidadMedica) }}" method="POST" class="form-delete">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="ELIMINAR">
+                                            <i class="fa-solid fa-trash text-white"></i>
+                                        </button>
+                                    </form>
+
                                 </div>
                             </td>
                         </tr>
@@ -105,12 +114,12 @@
 
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: "Se modificara el status",
+                    text: "Se eliminará la especialidad médica",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Sí, modificar',
+                    confirmButtonText: 'Sí, eliminar',
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
