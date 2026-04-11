@@ -109,6 +109,14 @@
                 </div>
 
                 <div class="col-md-3">
+                    <label for="ocupacion">Ocupación</label>
+                    <input type="text" id="ocupacion" class="form-control @error('ocupacion') is-invalid @enderror" name="ocupacion" value="{{ old('ocupacion',$paciente->ocupacion) }}">
+                    @error('ocupacion')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="col-md-3">
                     <label for="estado_civil">Estado Civil</label>
 
                     <select id="estado_civil" name="estado_civil" class="form-control @error('estado_civil') is-invalid @enderror">
@@ -148,6 +156,12 @@
                     @enderror
                 </div>
 
+                
+
+            </div>
+
+            <div class="row mt-3">
+
                 <div class="col-md-3">
                     <label for="primera_vez">¿Primera vez?</label>
 
@@ -162,10 +176,6 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
-            </div>
-
-            <div class="row mt-3">
 
                 <div class="col-md-3">
                     <label for="diagnostico_id">Diagnóstico</label>

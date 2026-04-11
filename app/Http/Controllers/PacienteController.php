@@ -118,6 +118,10 @@ class PacienteController extends Controller
 
             'oncologo_medico_id' => 'required|exists:medicos,id|different:cirujano_oncologo_id',
 
+            'residencia' => 'nullable|string|max:255',
+            'alergias' => 'nullable|string|max:1000',
+            'ocupacion' => 'nullable|string|max:255',
+
         ],[
             // CURP
             'curp.required' => 'La CURP es obligatoria',
@@ -185,7 +189,9 @@ class PacienteController extends Controller
         $paciente->afiliacion_id = $request->afiliacion_id;
         $paciente->primera_vez = $request->primera_vez;
         $paciente->alergias = $request->alergias;
+        $paciente->ocupacion = $request->ocupacion;
         $paciente->email = $request->email; 
+        $paciente->ocupacion = $request->ocupacion; 
 
         $paciente->save();
 
@@ -228,6 +234,10 @@ class PacienteController extends Controller
             'cirujano_oncologo_id' => 'required|exists:medicos,id|different:oncologo_medico_id',
 
             'oncologo_medico_id' => 'required|exists:medicos,id|different:cirujano_oncologo_id',
+
+            'residencia' => 'nullable|string|max:255',
+            'alergias' => 'nullable|string|max:1000',
+            'ocupacion' => 'nullable|string|max:255',
         ],[
             // Nombre
             'nombre.required' => 'El nombre es obligatorio',

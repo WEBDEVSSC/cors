@@ -5,7 +5,7 @@
 @section('plugins.Sweetalert2', true)
 
 @section('content_header')
-    <h1><strong>Usuarios</strong> <small class="text-muted">Nuevo Registro</small></h1>
+    <h1><strong>Usuarios</strong> <small class="text-muted">Asignar Médico</small></h1>
 @stop
 
 @section('content')
@@ -13,6 +13,7 @@
 
 <div class="card">
     <div class="card-header">
+        <p><strong>Usuario : </strong>{{ $usuario->name }}</p>
         <a href="{{ route('usuariosIndex') }}" 
                 class="btn btn-sm btn-info mr-1 float-right" 
                 data-toggle="tooltip" 
@@ -24,8 +25,11 @@
         </a>
     </div>
 
-    <form action="{{ route('usuariosUpdate', $usuario->id) }}" method="POST">
+    
+
+    <form action="{{ route('usuariosMedicoUpdate', $usuario->id) }}" method="POST">
         @csrf
+
         @method('PUT')
 
         <div class="card-body">
@@ -33,45 +37,26 @@
             {{-- DATOS GENERALES --}}
             <div class="row">
                 <div class="col-md-3">
-                    <label>Nombre</label>
-                    <input type="text" id="nombre" class="form-control @error('nombre') is-invalid @enderror" name="nombre" value="{{ old('nombre', $usuario->name) }}">
+                    <label>Médico</label>
+                    
+                    <select name="medico_id" 
+                            class="form-control @error('medico_id') is-invalid @enderror">
+
+                        <option value="">-- Selecciona una opción --</option>
+
+                        @foreach($medicos as $medico)
+                            <option value="{{ $medico->id }}"
+                                {{ old('medico_id') == $medico->id ? 'selected' : '' }}>
+                                {{ $medico->nombre_completo }}
+                            </option>
+                        @endforeach
+
+                    </select>
                     @error('nombre')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="col-md-3">
-                    <label>E-mail</label>
-                    <input type="email" id="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $usuario->email) }}">
-                    @error('email')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-3">
-                    <label>Contraseña</label>
-                    <input type="password" id="password" class="form-control @error('password') is-invalid @enderror" name="password">
-                    @error('password')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="col-md-3">
-                    <label>Rol</label>
-                    <select id="role" name="role" class="form-control @error('role') is-invalid @enderror">
-                        <option value="">-- Selecciona una opción --</option>                        
-                        <option value="admin" {{ old('role', $usuario->role) == 'admin' ? 'selected' : '' }}>Admin</option>                        
-                        <option value="farmacia" {{ old('role', $usuario->role) == 'farmacia' ? 'selected' : '' }}>Farmacia</option>                        
-                        <option value="recepcion" {{ old('role', $usuario->role) == 'recepcion' ? 'selected' : '' }}>Recepción</option>
-                        <option value="consultaExternaMedico" {{ old('role', $usuario->role) == 'consultaExternaMedico' ? 'selected' : '' }}>Consulta Externa Médico</option>
-                        <option value="consultaExternaEnfermeria" {{ old('role', $usuario->role) == 'consultaExternaEnfermeria' ? 'selected' : '' }}>Consulta Externa Enfermería</option>
-                    </select>
-
-                    @error('role')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                   
-                </div>
             </div>
 
         </div>

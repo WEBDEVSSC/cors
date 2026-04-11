@@ -11,9 +11,17 @@
 @section('content')
     <div class="card">
         <div class="card-header">
-            <a href="{{ route('usuariosCreate') }}" class="btn btn-info btn-sm float-right">
-                <i class="fa-solid fa-plus"></i> NUEVO REGISTRO
+
+            <a href="{{ route('usuariosCreate') }}" 
+                class="btn btn-sm btn-info mr-1 float-right" 
+                data-toggle="tooltip" 
+                title="NUEVO REGISTRO">
+
+                <x-lucide-circle-plus style="width:16px; height:16px;" class="text-white"/>
+                NUEVO REGISTRO
+                
             </a>
+
         </div>
         <div class="card-body">
 
@@ -23,6 +31,7 @@
                         <th>Nombre</th>
                         <th>E-mail</th>
                         <th>Rol</th>
+                        <th>Médico *</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -32,12 +41,27 @@
                             <td>{{ $usuario->name; }}</td>
                             <td>{{ $usuario->email; }}</td>
                             <td>{{ $usuario->role; }}</td>
+                            <td>{{ $usuario->medico->nombre_completo ?? 'No asignado' }}</td>
 
                             <td>
                                 <div class="d-flex gap-1">
-                                    
-                                    <a href="{{ route('usuariosEdit', $usuario) }}" class="btn btn-sm btn-warning mr-1" data-toggle="tooltip" title="EDITAR">
-                                        <i class="fa-solid fa-edit text-white"></i>
+
+                                    <a href="{{ route('usuariosEdit', $usuario) }}" 
+                                        class="btn btn-sm btn-warning mr-1" 
+                                        data-toggle="tooltip" 
+                                        title="EDITAR">
+
+                                            <x-lucide-file-pen-line style="width:16px; height:16px;" class="text-white"/>
+
+                                    </a>
+
+                                    <a href="{{ route('usuariosMedicoCreate', $usuario) }}" 
+                                        class="btn btn-sm btn-success mr-1" 
+                                        data-toggle="tooltip" 
+                                        title="ASIGNAR MEDICO">
+
+                                            <x-lucide-users style="width:16px; height:16px;" class="text-white"/>
+
                                     </a>
 
                                     
@@ -46,8 +70,13 @@
                                         @csrf
                                         @method('DELETE')
 
-                                        <button type="submit" class="btn btn-sm btn-danger" data-toggle="tooltip" title="ELIMINAR  ">
-                                            <i class="fa-solid fa-trash text-white"></i>
+                                        <button type="submit" 
+                                                class="btn btn-sm btn-danger" 
+                                                data-toggle="tooltip" 
+                                                title="ELIMINAR">
+
+                                            <x-lucide-trash style="width:16px; height:16px;" class="text-white"/>
+
                                         </button>
                                     </form>
 

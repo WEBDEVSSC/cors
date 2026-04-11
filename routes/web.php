@@ -258,6 +258,10 @@ Route::middleware(['auth'])->group(function ()
 
     Route::delete('admin/settings/usuarios/destroy/{id}', [UserController::class, 'usuariosDestroy'])->name('usuariosDestroy');
 
+    Route::get('admin/settings/usuarios/asignar-medico-create/{id}', [UserController::class,'usuariosMedicoCreate'])->name('usuariosMedicoCreate');
+
+    Route::put('admin/settings/usuarios/asignar-medico-update/{id}', [UserController::class,'usuariosMedicoUpdate'])->name('usuariosMedicoUpdate');
+
 
 
 

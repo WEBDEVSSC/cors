@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Medico;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -94,5 +95,32 @@ class UserController extends Controller
         $usuario->delete();
 
         return redirect()->route('usuariosIndex')->with('success', 'Usuario eliminado exitosamente.');
+    }
+
+    public function usuariosMedicoCreate($id)
+    {    
+        $usuario = User::findOrFail($id);
+
+        $medicos = Medico::where('status',1)->get();
+
+        return view ('settings.usuarios.asignar-medico-create', compact('usuario', 'medicos'));
+    }
+
+    public function usuariosMedicoUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'medico_id' => 'required|exists:medicos,id',
+        ],[
+            'medico_id.required' => 'El campo médico es obligatorio.',
+            'medico_id.exists' => 'El médico seleccionado no es válido.',
+        ]);
+
+        $usuario = User::findOrFail($id);
+        
+        $usuario->id_medico = $request->medico_id;
+
+        $usuario->save();
+
+        return redirect()->route('usuariosIndex')->with('success', 'Médico asignado al usuario exitosamente.');
     }
 }

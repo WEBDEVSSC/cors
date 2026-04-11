@@ -13,9 +13,17 @@
 
 <div class="card">
     <div class="card-header">
-        <a href="{{ route('usuariosIndex') }}" class="btn btn-info btn-sm float-right">
-            <i class="fa-solid fa-sliders"></i> PANEL DE CONTROL
+
+        <a href="{{ route('usuariosIndex') }}" 
+                class="btn btn-sm btn-info mr-1 float-right" 
+                data-toggle="tooltip" 
+                title="PANEL DE CONTROL">
+
+                <x-lucide-layout-panel-left style="width:16px; height:16px;" class="text-white"/>
+                PANEL DE CONTROL
+                
         </a>
+
     </div>
 
     <form action="{{ route('usuariosStore') }}" method="POST">
@@ -70,9 +78,15 @@
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-success btn-sm float-right">
-                <i class="fa-solid fa-check"></i> REGISTRAR DATOS
+            <button type="submit" 
+                    class="btn btn-success btn-sm float-right d-inline-flex align-items-center" 
+                    style="gap:6px;">
+
+                <x-lucide-save style="width:16px; height:16px;" />
+                REGISTRAR DATOS
+
             </button>
+            
         </div>
     </form>
 </div>
