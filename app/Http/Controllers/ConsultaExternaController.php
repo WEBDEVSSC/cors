@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CatCie10;
 use App\Models\CatTipoDeCancer;
 use App\Models\Cita;
+use App\Models\CitaSubsecuente;
 use App\Models\CitaValoracionInicial;
 use App\Models\Medico;
 use App\Models\Paciente;
@@ -162,8 +163,11 @@ class ConsultaExternaController extends Controller
         // Exploración física
         'exploracion_fisica.string' => 'La exploración física debe ser un texto válido',
     ]);
-
+    
         $cita = Cita::findOrFail($id);
+
+        // Calculamos la edad
+        $edad = Carbon::parse($cita->paciente->fecha_nacimiento)->age;
 
         // Validar que la cita exista
         if (!$cita) {
@@ -182,6 +186,7 @@ class ConsultaExternaController extends Controller
         $cita->dolor = $request->dolor;
         $cita->caidas = $request->caidas;
         $cita->exploracion_fisica = $request->exploracion_fisica;
+        $cita->edad = $edad;
 
         $cita->signos_vitales = 1;
 
@@ -253,6 +258,10 @@ class ConsultaExternaController extends Controller
 
         $medicoId = Auth::user()->id_medico;
 
+        $paciente = Paciente::findOrFail($request->paciente);
+        // Calculamos la edad
+        $edad = Carbon::parse($paciente->fecha_nacimiento)->age;
+
         $valoracionInicial = new CitaValoracionInicial();
 
         $valoracionInicial->tipo_cancer_id = $request->tipo_cancer_id;
@@ -264,8 +273,19 @@ class ConsultaExternaController extends Controller
         $valoracionInicial->pronostico = $request->pronostico;
         $valoracionInicial->analisis = $request->analisis;
         $valoracionInicial->id_medico = $medicoId;
+        $valoracionInicial->edad = $edad;
 
         $valoracionInicial->save();
+
+        // Cambiamos el status de la cita a "finalizada" para que no aparezca en el listado de citas del día
+        $cita = Cita::findOrFail($id);
+        $cita->status = 1;
+        $cita->save();
+
+        // Actualizamos el diagnóstico del paciente con el diagnóstico seleccionado en la valoración inicial
+        $paciente->diagnostico_id = $request->id_diagnostico_cie10;
+        $paciente->id_diagnostico_cie10 = $request->id_diagnostico_cie10;
+        $paciente->save();
 
         return redirect()->route('medicoMisCitas')->with('success', 'Valoración inicial registrada correctamente');
     }
@@ -292,15 +312,81 @@ class ConsultaExternaController extends Controller
         return $pdf->stream('valoracion_inicial.pdf'); // 👈 abre en navegador
     }
 
-    public function consultaSubsecuente($id)
+    public function consultaSubsecuenteCreate($id)
     {
         $cita = Cita::findOrFail($id);
 
-        // Validar que la cita sea del médico autenticado
-        if ($cita->medico_id !== Auth::user()->id_medico) {
-            return back()->with('error', 'No puedes acceder a esta cita');
-        }
+         // Cargamos todos los diagnosticos
 
-        return view('consulta-externa.medicos-consulta-subsecuente', compact('cita'));
+        $tiposDeCancer = CatTipoDeCancer::all();
+
+        // Cargamos todos los diagnosticos de la CIE 10
+
+        $diagnosticosCIE10 = CatCie10::all();
+
+        // Cargamos al paciente para comparar el campo diagnostico
+
+        $paciente = Paciente::findOrFail($cita->paciente_id);
+
+        return view('consulta-externa.medicos-consulta-subsecuente', compact('cita', 'tiposDeCancer', 'diagnosticosCIE10', 'paciente'));
     }
+
+    public function consultaSubsecuenteStore(Request $request, $id)
+    {   
+        $request->validate([
+            'paciente' => 'required|exists:pacientes,id',
+            'evolucion' => 'required|string',
+            'estudios' => 'required|string',
+            'tipo_cancer_id' => 'required|string',
+            'id_diagnostico_cie10' => 'required|string',
+            'pronostico' => 'required|string',
+            'analisis' => 'required|string',
+        ], [
+            'evolucion.required' => 'La evolución es obligatoria',
+            'evolucion.string' => 'La evolución debe ser un texto válido',
+            'estudios.required' => 'Los estudios son obligatorios',
+            'estudios.string' => 'Los estudios deben ser un texto válido',
+            'tipo_cancer_id.required' => 'El tipo de cáncer es obligatorio',
+            'tipo_cancer_id.string' => 'El tipo de cáncer debe ser un texto válido',
+            'id_diagnostico_cie10.required' => 'El diagnóstico CIE-10 es obligatorio',
+            'id_diagnostico_cie10.string' => 'El diagnóstico CIE-10 debe ser un texto válido',
+            'pronostico.required' => 'El pronóstico es obligatorio',
+            'pronostico.string' => 'El pronóstico debe ser un texto válido',
+            'analisis.required' => 'El análisis es obligatorio',
+            'analisis.string' => 'El análisis debe ser un texto válido',
+        ]);
+
+        $medicoId = Auth::user()->id_medico;
+
+        $paciente = Paciente::findOrFail($request->paciente);
+        // Calculamos la edad
+        $edad = Carbon::parse($paciente->fecha_nacimiento)->age;
+
+        $consultaSubsecuente = new CitaSubsecuente();
+
+        $consultaSubsecuente->cita_id = $id;
+        $consultaSubsecuente->paciente_id = $request->paciente;
+        $consultaSubsecuente->id_medico = $medicoId;
+
+        $consultaSubsecuente->evolucion = $request->evolucion;
+        $consultaSubsecuente->estudios = $request->estudios;
+        $consultaSubsecuente->pronostico = $request->pronostico;
+        $consultaSubsecuente->analisis = $request->analisis;
+        $consultaSubsecuente->edad = $edad;
+
+        $consultaSubsecuente->save();
+
+        // Cambiamos el status de la cita a "finalizada" para que no aparezca en el listado de citas del día
+        $cita = Cita::findOrFail($id);
+        $cita->status = 1;
+        $cita->save();
+
+        // Actualizamos el diagnóstico del paciente con el diagnóstico seleccionado en la valoración inicial
+        $paciente->diagnostico_id = $request->id_diagnostico_cie10;
+        $paciente->id_diagnostico_cie10 = $request->id_diagnostico_cie10;
+        $paciente->save();
+
+        return redirect()->route('medicoMisCitas')->with('success', 'Consulta subsecuente registrada correctamente');
+    }
+
 }

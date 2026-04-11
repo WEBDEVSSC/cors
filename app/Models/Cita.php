@@ -25,6 +25,7 @@ class Cita extends Model
         'saO2',
         'dolor',
         'caidas',
+        'edad',
     ];
 
     protected $casts = [

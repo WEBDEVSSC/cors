@@ -27,6 +27,7 @@
                 <thead>
                     <tr>
                         <th>Horario</th>
+                        <th>Status</th>
                         <th>Paciente</th>
                         <th>Diagnóstico</th>
                         <th>Afiliación</th>
@@ -45,6 +46,22 @@
 
                         <tr>
                             <td>{{ $hora }}</td>
+
+                            @if ($cita)
+                                @if ($cita->status == 0)
+                                    <td>
+                                        <span class="badge badge-danger">EN ESPERA</span>
+                                    </td>
+                                @elseif ($cita->status == 1)
+                                    <td>
+                                        <span class="badge badge-success">ATENDIDO</span>
+                                    </td>
+                                @endif
+                            @else
+                                <td>
+                                    
+                                </td>
+                            @endif
 
                             @if ($cita)
                                 <td>{{ $cita->paciente->nombre_completo }}</td>
@@ -99,7 +116,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="{{ route('iniciarCita', $cita->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="INICIAR CITA">
+                                    <a href="{{ route('consultaSubsecuenteCreate', $cita->id) }}" class="btn btn-sm btn-info" data-toggle="tooltip" title="INICIAR CITA">
                                         <i class="fas fa-stethoscope"></i> INICIAR CITA
                                     </a>
                                 </td>

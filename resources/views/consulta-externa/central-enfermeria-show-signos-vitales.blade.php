@@ -390,6 +390,11 @@
             @endif
         </div>
 
+        <div class="col-md-2">
+            <p><strong>Edad</strong></p>
+            <p>{{ $cita->edad ?? 'Sin datos' }} años</p>
+        </div>
+
             {{-------------------------}}
             </div>
 
